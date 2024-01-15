@@ -1,14 +1,15 @@
-package org.example.todolist.services;
+package org.example.todolist.serviceImpl;
 
-import org.example.todolist.models.Todolist;
+import org.example.todolist.model.Todolist;
 import org.example.todolist.repositories.TodolistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class TodolistService {
+public class TodolistServiceImpl {
     @Autowired
     private TodolistRepository todolistRepository;
 
@@ -20,14 +21,9 @@ public class TodolistService {
         return todolistRepository.findAll();
     }
 
-    public Todolist findTodolistById(Integer id) {
-        return todolistRepository.findById(id).orElse(null);
+    public Optional<Todolist> findTodolistById(Integer id) {
+        return todolistRepository.findById(id);
     }
-
-    public List<Todolist> findTodoListByState(Integer stateId) {
-        return todolistRepository.findByStateId(stateId);
-    }
-
 
     public boolean deleteTodolistById(Integer id) {
         try {
@@ -39,8 +35,9 @@ public class TodolistService {
     }
 
     public Todolist updateTodolistById(Integer id, Todolist todolist) {
-        Todolist todolistToUpdate = todolistRepository.findById(id).orElse(null);
-        if (todolistToUpdate != null) {
+        Optional<Todolist> todolistOptional = todolistRepository.findById(id);
+        if (todolistOptional.isPresent()) {
+            Todolist todolistToUpdate = todolistOptional.get();
             todolistToUpdate.setTitle(todolist.getTitle());
             todolistToUpdate.setDescription(todolist.getDescription());
             todolistToUpdate.setEstimation(todolist.getEstimation());

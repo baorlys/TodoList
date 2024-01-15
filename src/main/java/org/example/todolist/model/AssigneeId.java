@@ -1,4 +1,4 @@
-package org.example.todolist.models;
+package org.example.todolist.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

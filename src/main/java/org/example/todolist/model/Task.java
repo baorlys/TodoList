@@ -1,4 +1,4 @@
-package org.example.todolist.models;
+package org.example.todolist.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.Instant;
+import java.sql.Timestamp;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -44,15 +44,15 @@ public class Task {
     private State state;
 
     @Column(name = "estimation")
-    private Instant estimation;
+    private Timestamp estimation;
 
     @Column(name = "`order`")
-    private Integer order;
+    private Timestamp order;
 
     @Column(name = "created_at")
-    private Instant createdAt;
+    private Timestamp createdAt;
 
     @Column(name = "updated_at")
-    private Instant updatedAt;
+    private Timestamp updatedAt;
 
 }

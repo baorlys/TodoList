@@ -1,4 +1,4 @@
-package org.example.todolist.models;
+package org.example.todolist.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,8 +11,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "permissions")
-public class Permission {
+@Table(name = "priorities")
+public class Priority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -21,7 +21,8 @@ public class Permission {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "value")
-    private Integer value;
+    @ManyToOne()
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 
 }

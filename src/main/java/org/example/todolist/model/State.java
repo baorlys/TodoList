@@ -1,4 +1,4 @@
-package org.example.todolist.models;
+package org.example.todolist.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,8 +11,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "priorities")
-public class Priority {
+@Table(name = "states")
+public class State {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

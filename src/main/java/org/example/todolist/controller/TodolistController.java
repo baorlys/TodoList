@@ -1,10 +1,9 @@
-package org.example.todolist.controllers;
+package org.example.todolist.controller;
 
-import org.example.todolist.models.Todolist;
-import org.example.todolist.services.TodolistService;
+import org.example.todolist.model.Todolist;
+import org.example.todolist.serviceImpl.TodolistServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,7 +12,7 @@ import java.util.List;
 @RequestMapping("api/v1/todolist")
 public class TodolistController {
     @Autowired
-    private TodolistService todolistService;
+    private TodolistServiceImpl todolistService;
 
     @GetMapping("/")
     public ResponseEntity<List<Todolist>> getAllTodoList() {

@@ -1,12 +1,9 @@
-package org.example.todolist.models;
+package org.example.todolist.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import java.time.Instant;
+import java.sql.Timestamp;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,8 +20,8 @@ public class User {
     @Column(name = "username")
     private String username;
 
-    @Column(name = "password_hash")
-    private String passwordHash;
+    @Column(name = "password")
+    private String password;
 
     @Column(name = "email")
     private String email;
@@ -40,12 +37,12 @@ public class User {
     private Role role;
 
     @Column(name = "lastlogin_at")
-    private Instant lastloginAt;
+    private Timestamp lastloginAt;
 
     @Column(name = "created_at")
-    private Instant createdAt;
+    private Timestamp createdAt;
 
     @Column(name = "updated_at")
-    private Instant updatedAt;
+    private Timestamp updatedAt;
 
 }
