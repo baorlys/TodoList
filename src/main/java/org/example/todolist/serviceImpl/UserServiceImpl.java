@@ -2,18 +2,17 @@ package org.example.todolist.serviceImpl;
 
 import org.example.todolist.model.Role;
 import org.example.todolist.model.User;
-import org.example.todolist.repositories.RoleRepository;
-import org.example.todolist.repositories.UserRepository;
-import org.example.todolist.service.IUserService;
+import org.example.todolist.repository.RoleRepository;
+import org.example.todolist.repository.UserRepository;
+import org.example.todolist.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserServiceImpl implements IUserService {
+public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -29,7 +28,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public User findByEmail(String email) {
-        return null;
+        return userRepository.findByEmail(email);
     }
 
     @Override
@@ -38,41 +37,16 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public User register(User user) {
-        User newUser = new User();
-        List<Role> roles = getRoles();
-        // 1 is user , 0 is admin
-        newUser.setRole(roles.get(1));
-        newUser.setEmail(user.getEmail());
-        newUser.setPassword(user.getPassword());
-        newUser.setUsername(user.getUsername());
-        newUser.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-        return userRepository.save(newUser);
-
+    public User update(Integer id, User user) {
+        return null;
     }
 
-    public User register(User user, String passwordHash) {
-        User newUser = new User();
-        List<Role> roles = getRoles();
-        // 1 is user , 0 is admin
-        newUser.setRole(roles.get(1));
-        newUser.setEmail(user.getEmail());
-        newUser.setPassword(passwordHash);
-        newUser.setUsername(user.getUsername());
-        newUser.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-        return userRepository.save(newUser);
-
-    }
 
     public boolean isExist(String email) {
         User user = userRepository.findByEmail(email);
         return user != null;
     }
 
-    @Override
-    public User login(User user) {
-        return null;
-    }
 
     @Override
     public Boolean delete(Integer id) {

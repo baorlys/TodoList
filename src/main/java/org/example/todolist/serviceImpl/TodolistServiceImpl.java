@@ -1,7 +1,8 @@
 package org.example.todolist.serviceImpl;
 
 import org.example.todolist.model.Todolist;
-import org.example.todolist.repositories.TodolistRepository;
+import org.example.todolist.repository.TodolistRepository;
+import org.example.todolist.service.TodoListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,32 +10,17 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TodolistServiceImpl {
+public class TodolistServiceImpl implements TodoListService {
     @Autowired
     private TodolistRepository todolistRepository;
 
-    public Todolist createNewTodolist(Todolist todolist) {
+    @Override
+    public Todolist create(Todolist todolist) {
         return todolistRepository.save(todolist);
     }
 
-    public List<Todolist> getAllTodolist() {
-        return todolistRepository.findAll();
-    }
-
-    public Optional<Todolist> findTodolistById(Integer id) {
-        return todolistRepository.findById(id);
-    }
-
-    public boolean deleteTodolistById(Integer id) {
-        try {
-            todolistRepository.deleteById(id);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    public Todolist updateTodolistById(Integer id, Todolist todolist) {
+    @Override
+    public Todolist update(Integer id, Todolist todolist) {
         Optional<Todolist> todolistOptional = todolistRepository.findById(id);
         if (todolistOptional.isPresent()) {
             Todolist todolistToUpdate = todolistOptional.get();
@@ -50,11 +36,33 @@ public class TodolistServiceImpl {
         return null;
     }
 
-    public List<Todolist> getAllTodolistByUserId(Integer userId) {
+    @Override
+    public Boolean delete(Integer id) {
+        try {
+            todolistRepository.deleteById(id);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
+    public Optional<Todolist> getTodoList(Integer id) {
+        return todolistRepository.findById(id);
+    }
+
+    @Override
+    public List<Todolist> getAllTodoList() {
+        return todolistRepository.findAll();
+    }
+
+    @Override
+    public List<Todolist> getAllTodoList(Integer userId) {
         return todolistRepository.findByUserId(userId);
     }
 
-    public List<Todolist> getAllTodolistByUserIdAndStateId(Integer userId, Integer stateId) {
+    @Override
+    public List<Todolist> getAllTodoList(Integer userId, Integer stateId) {
         return todolistRepository.findByUserIdAndStateId(userId, stateId);
     }
 }
