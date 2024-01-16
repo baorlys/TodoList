@@ -1,30 +1,22 @@
 package org.example.todolist.web;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 @Data
-public class ApiError {
+public class ApiSuccess {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private LocalDateTime timestamp;
-
     private HttpStatus status;
     private String message;
-    private String path;
 
-    public ApiError(HttpStatus status, String message, String path) {
+    public ApiSuccess(HttpStatus status, String message) {
         this.timestamp = LocalDateTime.now();
         this.status = status;
         this.message = message;
-        this.path = path;
     }
-
 }

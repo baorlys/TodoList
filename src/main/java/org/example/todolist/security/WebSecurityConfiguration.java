@@ -23,11 +23,12 @@ public class WebSecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/sign-up","/auth").permitAll()
-                        .requestMatchers("/api/**").authenticated())
+                        .requestMatchers("/sign-up","/auth","/api/**").permitAll()
+//                        .requestMatchers("/api/**").authenticated()
+                        )
                 .sessionManagement(sess -> sess
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(requestFilter, UsernamePasswordAuthenticationFilter.class)
+//                .addFilterBefore(requestFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
 
     }

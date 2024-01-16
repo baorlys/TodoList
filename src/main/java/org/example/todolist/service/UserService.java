@@ -1,15 +1,19 @@
 package org.example.todolist.service;
 
+import org.example.todolist.dto.request.UserRequest;
+import org.example.todolist.dto.response.UserResponse;
 import org.example.todolist.model.User;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
-    List<User> findAll();
-    User findByEmail(String email);
-    Optional<User> findById(Integer id);
+    List<UserResponse> findAll();
+    UserResponse findByEmail(String email) throws Exception;
+    UserResponse findById(Integer id) throws Exception;
 
-    User update(Integer id, User user);
+    void updateLastLogin(String email);
+
+    UserResponse update(Integer id, UserRequest userRequest);
     Boolean delete(Integer id);
 }

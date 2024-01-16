@@ -1,10 +1,7 @@
 package org.example.todolist.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.sql.Timestamp;
 
@@ -20,9 +17,9 @@ public class Task {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "todolist_id")
-    private Todolist todolist;
+    private TodoList todolist;
 
     @Column(name = "title")
     private String title;
@@ -47,7 +44,7 @@ public class Task {
     private Timestamp estimation;
 
     @Column(name = "`order`")
-    private Timestamp order;
+    private Integer order;
 
     @Column(name = "created_at")
     private Timestamp createdAt;

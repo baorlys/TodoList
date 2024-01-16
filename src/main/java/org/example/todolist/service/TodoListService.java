@@ -1,16 +1,21 @@
 package org.example.todolist.service;
 
-import org.example.todolist.model.Todolist;
+import org.example.todolist.dto.request.TodoListRequest;
+import org.example.todolist.dto.response.TodoListResponse;
+import org.example.todolist.model.TodoList;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface TodoListService {
-    Todolist create(Todolist todolist);
-    Todolist update(Integer id, Todolist todolist);
+    TodoList create(TodoList todolist);
     Boolean delete(Integer id);
-    Optional<Todolist> getTodoList(Integer id);
-    List<Todolist> getAllTodoList();
-    List<Todolist> getAllTodoList(Integer userId);
-    List<Todolist> getAllTodoList(Integer userId, Integer stateId);
+    List<TodoList> getAllTodoList();
+    List<TodoList> getAllTodoList(Integer userId);
+    List<TodoList> getAllTodoList(Integer userId, Integer stateId);
+
+    TodoListResponse getTodoListResponse(Integer id);
+
+    TodoListResponse update(Integer id, TodoListRequest todoListRequest) throws Exception;
+
+    TodoList getTodolist(Integer id);
 }

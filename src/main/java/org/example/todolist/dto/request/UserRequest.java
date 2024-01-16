@@ -5,10 +5,9 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class UserUpdate {
+public class UserRequest {
     private String username;
-    private String password;
     private String email;
     private String mobile;
-    private Boolean mobile_hidden;
+    private Boolean mobileHidden;
 }
