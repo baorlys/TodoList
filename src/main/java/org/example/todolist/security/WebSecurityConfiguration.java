@@ -23,7 +23,7 @@ public class WebSecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/sign-up","/auth","/api/**").permitAll()
+                        .requestMatchers("/sign-up","/auth","/api/**","/swagger-ui/**").permitAll()
 //                        .requestMatchers("/api/**").authenticated()
                         )
                 .sessionManagement(sess -> sess

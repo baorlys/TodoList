@@ -11,10 +11,9 @@ public class TodoListResponse {
     private String title;
     private String description;
     private Integer order;
+    private StateResponse state;
+    private PriorityResponse priority;
     private Integer userId;
-
     private Timestamp estimation;
-
-
     private List<TaskResponse> tasks;
 }

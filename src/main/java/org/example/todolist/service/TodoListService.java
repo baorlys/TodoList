@@ -7,15 +7,15 @@ import org.example.todolist.model.TodoList;
 import java.util.List;
 
 public interface TodoListService {
-    TodoList create(TodoList todolist);
+    TodoListResponse create(TodoListRequest todoListRequest);
     Boolean delete(Integer id);
-    List<TodoList> getAllTodoList();
-    List<TodoList> getAllTodoList(Integer userId);
-    List<TodoList> getAllTodoList(Integer userId, Integer stateId);
+    List<TodoListResponse> getAllTodoList();
+    List<TodoListResponse> getAllTodoList(Integer userId);
+    List<TodoListResponse> getAllTodoList(Integer userId, Integer stateId);
 
     TodoListResponse getTodoListResponse(Integer id);
 
     TodoListResponse update(Integer id, TodoListRequest todoListRequest) throws Exception;
 
-    TodoList getTodolist(Integer id);
+    TodoListResponse getTodoList(Integer id) throws Exception;
 }

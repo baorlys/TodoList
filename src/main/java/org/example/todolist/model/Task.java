@@ -28,9 +28,6 @@ public class Task {
     @Column(name = "description")
     private String description;
 
-    @ManyToOne()
-    @JoinColumn(name = "assignee_id", referencedColumnName = "id")
-    private Assignee assignee;
 
     @ManyToOne()
     @JoinColumn(name = "priority_id")

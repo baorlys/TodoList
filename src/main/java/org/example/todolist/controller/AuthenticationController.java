@@ -39,7 +39,6 @@ public class AuthenticationController {
     @Autowired
     private JwtUtil jwtUtil;
 
-    @ExceptionHandler({BadCredentialsException.class})
     @PostMapping("/auth")
     public ResponseEntity<?> createAuthenticationToken(@Valid @RequestBody AuthenticationRequest authenticationRequest,
                                                     HttpServletRequest request) {
@@ -76,11 +75,7 @@ public class AuthenticationController {
         }
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> handleException(Exception e, HttpServletRequest request) {
-        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, e.getMessage(), request.getServletPath());
-        return ResponseEntityBuilder.build(apiError);
-    }
+
 
 
 }

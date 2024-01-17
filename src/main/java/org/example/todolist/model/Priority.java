@@ -21,8 +21,4 @@ public class Priority {
     @Column(name = "title")
     private String title;
 
-    @ManyToOne()
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
-
 }

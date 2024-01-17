@@ -20,15 +20,16 @@ public class Comment {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "title")
-    private String title;
-
-    @Column(name = "description")
-    private String description;
+    @Column(name = "content")
+    private String content;
 
     @ManyToOne()
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
+
+    @ManyToOne()
+    @JoinColumn(name = "task_id", referencedColumnName = "id")
+    private Task task;
 
     @Column(name = "created_at")
     private Timestamp createdAt;

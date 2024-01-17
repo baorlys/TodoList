@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.example.todolist.enums.StateType;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,6 +21,9 @@ public class State {
 
     @Column(name = "title")
     private String title;
+
+    @Column(name = "type")
+    private Integer type;
 
     @ManyToOne()
     @JoinColumn(name = "user_id", referencedColumnName = "id")

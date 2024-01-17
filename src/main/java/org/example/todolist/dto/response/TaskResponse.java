@@ -5,14 +5,16 @@ import org.example.todolist.model.Priority;
 import org.example.todolist.model.State;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Data
 public class TaskResponse {
     private Integer id;
     private String title;
     private String description;
-    private String state;
-    private String priority;
+    private StateResponse state;
+    private PriorityResponse priority;
+    private List<AssigneeResponse> assignees;
     private Integer order;
     private Timestamp estimation;
 }

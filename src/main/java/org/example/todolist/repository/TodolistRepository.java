@@ -13,6 +13,6 @@ public interface TodolistRepository extends JpaRepository<TodoList, Integer> {
     @Query("SELECT t FROM TodoList t WHERE t.user.id = ?1")
     List<TodoList> findByUserId(Integer userId);
 
-    @Query("SELECT t FROM TodoList t WHERE t.user.id = ?1 AND t.stateId = ?2")
+    @Query("SELECT t FROM TodoList t WHERE t.user.id = ?1 AND t.state.id = ?2")
     List<TodoList> findByUserIdAndStateId(Integer userId, Integer stateId);
 }

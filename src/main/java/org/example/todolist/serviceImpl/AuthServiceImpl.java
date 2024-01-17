@@ -8,6 +8,8 @@ import org.example.todolist.model.User;
 import org.example.todolist.repository.RoleRepository;
 import org.example.todolist.repository.UserRepository;
 import org.example.todolist.service.AuthService;
+import org.example.todolist.service.StateService;
+import org.example.todolist.service.TaskService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,6 +23,8 @@ public class AuthServiceImpl implements AuthService {
     private UserRepository userRepository;
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    private StateService stateService;
     @Autowired
     private ModelMapper mapper;
 
@@ -38,6 +42,7 @@ public class AuthServiceImpl implements AuthService {
         user.setLastloginAt(new Timestamp(System.currentTimeMillis()));
         user.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         User createdUser = userRepository.save(user);
+        stateService.createDefautStates(createdUser.getId());
         return mapper.map(createdUser, SignupResponse.class);
     }
 

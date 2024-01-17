@@ -4,7 +4,7 @@ import org.springframework.http.ResponseEntity;
 
 public class ResponseEntityBuilder {
 
-    public static ResponseEntity<Object> build(ApiError apiError) {
+    public static ResponseEntity<?> build(ApiError apiError) {
         return new ResponseEntity<>(apiError, apiError.getStatus());
     }
 

@@ -1,15 +1,14 @@
 package org.example.todolist.serviceImpl;
 
 import org.example.todolist.dto.request.TaskRequest;
+import org.example.todolist.dto.response.PriorityResponse;
+import org.example.todolist.dto.response.StateResponse;
 import org.example.todolist.dto.response.TaskResponse;
 import org.example.todolist.model.Priority;
 import org.example.todolist.model.Task;
 import org.example.todolist.model.TodoList;
 import org.example.todolist.model.State;
-import org.example.todolist.repository.PriorityRepository;
-import org.example.todolist.repository.StateRepository;
-import org.example.todolist.repository.TaskRepository;
-import org.example.todolist.repository.TodolistRepository;
+import org.example.todolist.repository.*;
 import org.example.todolist.service.TaskService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,10 +39,10 @@ public class TaskServiceImpl implements TaskService {
         for(Task task : tasks){
             TaskResponse taskResponse = mapper.map(task, TaskResponse.class);
             if(task.getState() != null) {
-                taskResponse.setState(task.getState().getTitle());
+                taskResponse.setState(mapper.map(task.getState(), StateResponse.class));
             }
             if(task.getPriority() != null) {
-                taskResponse.setPriority(task.getPriority().getTitle());
+                taskResponse.setPriority(mapper.map(task.getPriority(), PriorityResponse.class));
             }
             taskResponses.add(taskResponse);
         }

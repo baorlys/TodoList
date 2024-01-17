@@ -35,11 +35,13 @@ public class TodoList {
     @Column(name = "`order`")
     private Integer order;
 
-    @Column(name = "priority_id")
-    private Integer priorityId;
+    @ManyToOne()
+    @JoinColumn(name = "priority_id")
+    private Priority priority;
 
-    @Column(name = "state_id")
-    private Integer stateId;
+    @ManyToOne()
+    @JoinColumn(name = "state_id")
+    private State state;
 
     @Column(name = "created_at")
     private Timestamp createdAt;

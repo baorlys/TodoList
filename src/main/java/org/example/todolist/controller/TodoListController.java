@@ -53,7 +53,7 @@ public class TodoListController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createTodoList(@RequestBody TodoList todolist) {
+    public ResponseEntity<?> createTodoList(@RequestBody TodoListRequest todolist) {
         return ResponseEntity.ok(todolistService.create(todolist));
     }
 
@@ -71,10 +71,5 @@ public class TodoListController {
         }
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> handleException(Exception e, HttpServletRequest request) {
-        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, e.getMessage(), request.getRequestURI());
-        return ResponseEntityBuilder.build(apiError);
-    }
 
 }

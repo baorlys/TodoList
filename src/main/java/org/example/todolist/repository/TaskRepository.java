@@ -13,7 +13,7 @@ public interface TaskRepository extends JpaRepository<Task, Integer> {
     @Query("SELECT t FROM Task t WHERE t.todolist = ?1")
     List<Task> getAllByTodolist(TodoList todolist);
 
-    @Query("SELECT t FROM Task t WHERE t.todolist = ?1 AND t.state = ?2")
+    @Query("SELECT t FROM Task t WHERE t.todolist = ?1 AND t.state.id = ?2")
     List<Task> getAllByTodolistAndState(TodoList todolist, Integer stateId);
 
 }
