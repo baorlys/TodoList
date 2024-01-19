@@ -21,4 +21,21 @@ public class StateController {
         ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "State created successfully");
         return ResponseEntityBuilder.build(apiSuccess);
     }
+
+    @PostMapping("{userId}/update-state/{stateId}")
+    public ResponseEntity<?> updateState(@PathVariable Integer userId, @PathVariable Integer stateId, @RequestBody StateRequest stateRequest) throws Exception {
+        stateService.updateState(userId, stateId, stateRequest);
+        ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "State updated successfully");
+        return ResponseEntityBuilder.build(apiSuccess);
+    }
+
+    @GetMapping("{userId}/get-states")
+    public ResponseEntity<?> getStatesByUserId(@PathVariable Integer userId) throws Exception {
+        return ResponseEntity.ok(stateService.getStatesByUserId(userId));
+    }
+
+    @GetMapping("{userId}/get-states-by-type/{type}")
+    public ResponseEntity<?> getStatesByUserIdAndType(@PathVariable Integer userId, @PathVariable Integer type) throws Exception {
+        return ResponseEntity.ok(stateService.getStatesByUserIdAndType(userId, type));
+    }
 }
