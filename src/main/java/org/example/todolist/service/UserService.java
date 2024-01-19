@@ -10,6 +10,7 @@ import java.util.Optional;
 
 public interface UserService {
     List<UserResponse> findAll();
+    List<UserResponse> findAllByIsHidden(Boolean isHidden);
     UserResponse findByEmail(String email) throws Exception;
     UserResponse findById(Integer id) throws Exception;
 
@@ -17,4 +18,5 @@ public interface UserService {
     Boolean changePassword(ChangePasswordRequest changePasswordRequest) throws Exception;
     UserResponse update(Integer id, UserRequest userRequest);
     Boolean delete(Integer id) throws Exception;
+    Boolean hide(Integer id) throws Exception;
 }

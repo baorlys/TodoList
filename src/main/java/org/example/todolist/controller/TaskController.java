@@ -36,12 +36,14 @@ public class TaskController {
 
     @PostMapping("/update/{taskId}")
     public ResponseEntity<?> updateTaskById(@PathVariable Integer taskId, @RequestBody TaskRequest taskRequest) throws Exception {
-        return ResponseEntity.ok(taskService.update(taskId, taskRequest));
+        taskService.update(taskId, taskRequest);
+        ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Task updated successfully");
+        return ResponseEntityBuilder.build(apiSuccess);
     }
 
     @DeleteMapping("/delete/{taskId}")
     public ResponseEntity<?> deleteTaskById(@PathVariable Integer taskId) throws Exception {
-        taskService.delete(taskId);
+        taskService.hide(taskId);
         ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Task deleted successfully");
         return ResponseEntityBuilder.build(apiSuccess);
     }
@@ -49,14 +51,17 @@ public class TaskController {
     @PostMapping("/{taskId}/add-assignee")
     public ResponseEntity<?> addAssignee(@PathVariable Integer taskId, @RequestBody AssigneeRequest assigneeRequest) throws Exception {
         assigneeRequest.setTaskId(taskId);
-        return ResponseEntity.ok(assigneeService.addAssignee(assigneeRequest));
+        assigneeService.addAssignee(assigneeRequest);
+        ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Assignee added successfully");
+        return ResponseEntityBuilder.build(apiSuccess);
 
     }
 
     @PostMapping("/{taskId}/delete-assignee")
-    public ResponseEntity<?> delete(@PathVariable Integer taskId, @RequestBody AssigneeRequest assigneeRequest) throws Exception {
-        assigneeRequest.setTaskId(taskId);
-        return ResponseEntity.ok(assigneeService.addAssignee(assigneeRequest));
+    public ResponseEntity<?> delete(@PathVariable Integer taskId, @RequestBody String email) throws Exception {
+        assigneeService.deleteAssignee(taskId,email);
+        ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Assignee deleted successfully");
+        return ResponseEntityBuilder.build(apiSuccess);
     }
 
     @GetMapping("/{taskId}/get-comments")
@@ -75,7 +80,7 @@ public class TaskController {
 
     @PostMapping("/{taskId}/delete-comment/{commentId}")
     public ResponseEntity<?> deleteComment(@PathVariable Integer taskId, @PathVariable Integer commentId) throws Exception {
-        commentService.deleteComment(commentId);
+        commentService.hide(commentId);
         ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Comment deleted successfully");
         return ResponseEntityBuilder.build(apiSuccess);
     }

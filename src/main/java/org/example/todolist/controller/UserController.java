@@ -41,4 +41,9 @@ public class UserController {
         return ResponseEntity.ok(userService.changePassword(changePasswordRequest));
     }
 
+    @PostMapping("/delete/{userId}")
+    public ResponseEntity<?> deleteUserById(@PathVariable Integer userId) throws Exception {
+        return ResponseEntity.ok(userService.hide(userId));
+    }
+
 }

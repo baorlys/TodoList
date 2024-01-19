@@ -8,6 +8,7 @@ import org.example.todolist.model.TodoList;
 import org.example.todolist.service.TaskService;
 import org.example.todolist.service.TodoListService;
 import org.example.todolist.web.ApiError;
+import org.example.todolist.web.ApiSuccess;
 import org.example.todolist.web.ResponseEntityBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,7 +36,8 @@ public class TodoListController {
     }
 
     @GetMapping("/user/{userId}/{stateId}")
-    public ResponseEntity<List<?>> getAllTodoListByUserIdAndStateId(@PathVariable Integer userId, @PathVariable Integer stateId ) {
+    public ResponseEntity<List<?>> getAllTodoListByUserIdAndStateId(@PathVariable Integer userId,
+                                                                    @PathVariable Integer stateId ) {
         return ResponseEntity.ok(todolistService.getAllTodoList(userId, stateId));
     }
 
@@ -45,22 +47,32 @@ public class TodoListController {
     }
     @PutMapping("{todoListId}/create-task")
     public ResponseEntity<?> createTask(@PathVariable Integer todoListId) throws Exception {
-        return ResponseEntity.ok(taskService.createWith(todoListId));
+        taskService.createWith(todoListId);
+        ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Task created successfully");
+        return ResponseEntityBuilder.build(apiSuccess);
     }
 
     @PostMapping("/create")
     public ResponseEntity<?> createTodoList(@RequestBody TodoListRequest todolist) {
-        return ResponseEntity.ok(todolistService.create(todolist));
+        todolistService.create(todolist);
+        ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Todo list created successfully");
+        return ResponseEntityBuilder.build(apiSuccess);
+
     }
 
     @DeleteMapping("/delete/{todoListId}")
-    public ResponseEntity<?> deleteTodoListById(@PathVariable Integer todoListId) {
-        return ResponseEntity.ok(todolistService.delete(todoListId));
+    public ResponseEntity<?> deleteTodoListById(@PathVariable Integer todoListId) throws Exception {
+        todolistService.hide(todoListId);
+        ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Todo list deleted successfully");
+        return ResponseEntityBuilder.build(apiSuccess);
     }
 
     @PostMapping("/update/{todoListId}")
-    public ResponseEntity<?> updateTodoListById(@PathVariable Integer todoListId, @RequestBody TodoListRequest todoList) throws Exception {
-        return ResponseEntity.ok(todolistService.update(todoListId, todoList));
+    public ResponseEntity<?> updateTodoListById(@PathVariable Integer todoListId, @RequestBody TodoListRequest todoList)
+            throws Exception {
+        todolistService.update(todoListId, todoList);
+        ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Todo list updated successfully");
+        return ResponseEntityBuilder.build(apiSuccess);
     }
 
 

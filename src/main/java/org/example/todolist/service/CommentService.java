@@ -11,7 +11,9 @@ public interface CommentService {
 
     void deleteComment(Integer commentId) throws Exception;
 
+    Boolean hide(Integer commentId) throws Exception;
+
     void updateComment(Integer commentId, CommentRequest commentRequest) throws Exception;
 
-    public List<CommentResponse> getComments(Integer taskId) throws Exception;
+    List<CommentResponse> getComments(Integer taskId) throws Exception;
 }

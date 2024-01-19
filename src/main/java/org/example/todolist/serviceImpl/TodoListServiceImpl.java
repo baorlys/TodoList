@@ -63,13 +63,25 @@ public class TodoListServiceImpl implements TodoListService {
     }
 
     @Override
-    public Boolean delete(Integer id) {
+    public Boolean delete(Integer id) throws Exception {
         try {
             todolistRepository.deleteById(id);
             return true;
         } catch (Exception e) {
-            return false;
+            throw new Exception("Todo list not found");
         }
+    }
+
+    @Override
+    public Boolean hide(Integer id) throws Exception {
+        TodoList todolist = todolistRepository.findById(id).orElse(null);
+        if(todolist != null) {
+            todolist.setIsHidden(true);
+            todolist.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
+            todolistRepository.save(todolist);
+            return true;
+        }
+        throw new Exception("Todo list not found");
     }
 
     @Override

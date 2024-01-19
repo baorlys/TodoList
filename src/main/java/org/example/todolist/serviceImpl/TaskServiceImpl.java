@@ -117,4 +117,16 @@ public class TaskServiceImpl implements TaskService {
             throw new Exception("Cannot delete task");
         }
     }
+
+    @Override
+    public Boolean hide(Integer id) throws Exception {
+        Task task = taskRepository.findById(id).orElse(null);
+        if(task != null) {
+            task.setIsHidden(true);
+            task.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
+            taskRepository.save(task);
+            return true;
+        }
+        throw new Exception("Task not found");
+    }
 }

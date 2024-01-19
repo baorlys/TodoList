@@ -56,6 +56,22 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public Boolean hide(Integer commentId) throws Exception {
+        Comment comment = commentRepository.findById(commentId).orElse(null);
+        if(comment == null) {
+            throw new Exception("Comment not found");
+        }
+        comment.setIsHidden(true);
+        comment.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
+        try {
+            commentRepository.save(comment);
+            return true;
+        } catch (Exception e) {
+            throw new Exception("Error");
+        }
+    }
+
+    @Override
     public void updateComment(Integer commentId, CommentRequest commentRequest) throws Exception {
         Comment comment = commentRepository.findById(commentId).orElse(null);
         if(commentRequest.getContent().isEmpty()) {

@@ -37,4 +37,7 @@ public class Comment {
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 
+    @Column(name = "is_hidden")
+    private Boolean isHidden;
+
 }

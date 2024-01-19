@@ -22,4 +22,5 @@ public interface TaskService {
 
     Boolean delete(Integer id) throws Exception;
 
+    Boolean hide(Integer id) throws Exception;
 }

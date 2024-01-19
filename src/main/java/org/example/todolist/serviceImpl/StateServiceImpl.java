@@ -1,5 +1,6 @@
 package org.example.todolist.serviceImpl;
 
+import org.example.todolist.dto.request.StateRequest;
 import org.example.todolist.enums.StateType;
 import org.example.todolist.model.State;
 import org.example.todolist.model.User;
@@ -28,5 +29,14 @@ public class StateServiceImpl implements StateService {
                 new State(null, "Doing",StateType.DOING.getTypeId(), user),
                 new State(null, "Done",StateType.DONE.getTypeId(), user)
         ));
+    }
+
+    @Override
+    public void createState(Integer userId, StateRequest stateRequest) throws Exception {
+        User user = userRepository.findById(userId).orElse(null);
+        if (user == null) {
+            throw new Exception("User not found");
+        }
+        stateRepository.save(new State(null, stateRequest.getTitle(), stateRequest.getType(), user));
     }
 }

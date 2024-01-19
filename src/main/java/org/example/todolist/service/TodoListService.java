@@ -8,7 +8,8 @@ import java.util.List;
 
 public interface TodoListService {
     TodoListResponse create(TodoListRequest todoListRequest);
-    Boolean delete(Integer id);
+    Boolean delete(Integer id) throws Exception;
+    Boolean hide(Integer id) throws Exception;
     List<TodoListResponse> getAllTodoList();
     List<TodoListResponse> getAllTodoList(Integer userId);
     List<TodoListResponse> getAllTodoList(Integer userId, Integer stateId);

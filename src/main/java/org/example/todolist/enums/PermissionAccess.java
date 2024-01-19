@@ -1,5 +1,8 @@
 package org.example.todolist.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum PermissionAccess {
     VIEW(1),
     EDIT(2);
@@ -8,10 +11,6 @@ public enum PermissionAccess {
 
     PermissionAccess(Integer id) {
         this.id = id;
-    }
-
-    public Integer getId() {
-        return id;
     }
 
     public static PermissionAccess getById(Integer id) {

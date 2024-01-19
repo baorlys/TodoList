@@ -38,6 +38,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<UserResponse> findAllByIsHidden(Boolean isHidden) {
+        List<User> users = userRepository.findAllByIsHidden(isHidden);
+        List<UserResponse> userResponses = new ArrayList<>();
+        for (User user : users) {
+            UserResponse userResponse = mapper.map(user, UserResponse.class);
+            userResponses.add(userResponse);
+        }
+        return userResponses;
+    }
+
+    @Override
     public UserResponse findByEmail(String email) throws Exception {
         User user = userRepository.findByEmail(email);
         if(user != null) {
@@ -69,6 +80,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByEmail(changePasswordRequest.getEmail());
         if (new BCryptPasswordEncoder().matches(changePasswordRequest.getOldPassword(), user.getPassword())) {
             user.setPassword(new BCryptPasswordEncoder().encode(changePasswordRequest.getNewPassword()));
+            user.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
             userRepository.save(user);
             return true;
         }
@@ -101,4 +113,18 @@ public class UserServiceImpl implements UserService {
         }
 
     }
+
+    @Override
+    public Boolean hide(Integer id) throws Exception {
+        User user = userRepository.findById(id).orElse(null);
+        if(user != null) {
+            user.setIsHidden(true);
+            user.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
+            userRepository.save(user);
+            return true;
+        }
+        throw new Exception("User not found");
+    }
+
+
 }
