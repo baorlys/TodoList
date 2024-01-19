@@ -16,10 +16,10 @@ public interface TaskService {
     TaskResponse find(Integer id) throws Exception;
 
 
-    TaskResponse createWith(Integer todolistId);
+    TaskResponse createWith(Integer todolistId) throws Exception;
 
     TaskResponse update(Integer id, TaskRequest taskRequest) throws Exception;
 
-    Boolean delete(Integer id);
+    Boolean delete(Integer id) throws Exception;
 
 }

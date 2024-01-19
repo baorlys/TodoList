@@ -70,12 +70,16 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public TaskResponse createWith(Integer todolistId) {
+    public TaskResponse createWith(Integer todolistId) throws Exception {
         Task task = new Task();
         TodoList todolist = todolistRepository.findById(todolistId).orElse(null);
         task.setTodolist(todolist);
         task.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-        taskRepository.save(task);
+        try {
+            taskRepository.save(task);
+        } catch (Exception e) {
+            throw new Exception("Cannot create task");
+        }
         return mapper.map(task, TaskResponse.class);
     }
 
@@ -105,12 +109,12 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Boolean delete(Integer id) {
+    public Boolean delete(Integer id) throws Exception {
         try {
             taskRepository.deleteById(id);
             return true;
         } catch (Exception e) {
-            return false;
+            throw new Exception("Cannot delete task");
         }
     }
 }

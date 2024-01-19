@@ -28,98 +28,65 @@ public class TaskController {
     private AssigneeService assigneeService;
     @Autowired
     private CommentService commentService;
-
+    
     @GetMapping("/{taskId}")
     public ResponseEntity<?> getTaskById(@PathVariable Integer taskId) throws Exception {
-        try {
-            return ResponseEntity.ok(taskService.find(taskId));
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
+        return ResponseEntity.ok(taskService.find(taskId));
     }
 
     @PostMapping("/update/{taskId}")
     public ResponseEntity<?> updateTaskById(@PathVariable Integer taskId, @RequestBody TaskRequest taskRequest) throws Exception {
-        try {
-            return ResponseEntity.ok(taskService.update(taskId, taskRequest));
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
+        return ResponseEntity.ok(taskService.update(taskId, taskRequest));
     }
 
     @DeleteMapping("/delete/{taskId}")
     public ResponseEntity<?> deleteTaskById(@PathVariable Integer taskId) throws Exception {
-        try {
-            taskService.delete(taskId);
-            ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Task deleted successfully");
-            return ResponseEntityBuilder.build(apiSuccess);
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
+        taskService.delete(taskId);
+        ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Task deleted successfully");
+        return ResponseEntityBuilder.build(apiSuccess);
     }
 
     @PostMapping("/{taskId}/add-assignee")
     public ResponseEntity<?> addAssignee(@PathVariable Integer taskId, @RequestBody AssigneeRequest assigneeRequest) throws Exception {
-        try {
-            assigneeRequest.setTaskId(taskId);
-            return ResponseEntity.ok(assigneeService.addAssignee(assigneeRequest));
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
+        assigneeRequest.setTaskId(taskId);
+        return ResponseEntity.ok(assigneeService.addAssignee(assigneeRequest));
+
     }
 
     @PostMapping("/{taskId}/delete-assignee")
     public ResponseEntity<?> delete(@PathVariable Integer taskId, @RequestBody AssigneeRequest assigneeRequest) throws Exception {
-        try {
-            assigneeRequest.setTaskId(taskId);
-            return ResponseEntity.ok(assigneeService.addAssignee(assigneeRequest));
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
+        assigneeRequest.setTaskId(taskId);
+        return ResponseEntity.ok(assigneeService.addAssignee(assigneeRequest));
     }
 
     @GetMapping("/{taskId}/get-comments")
     public ResponseEntity<List<?>> getComments(@PathVariable Integer taskId) throws Exception {
-        try {
-            return ResponseEntity.ok(commentService.getComments(taskId));
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
+        return ResponseEntity.ok(commentService.getComments(taskId));
     }
 
     @PostMapping("/{taskId}/add-comment")
     public ResponseEntity<?> addComment(@PathVariable Integer taskId, @RequestBody CommentRequest commentRequest) throws Exception {
-        try {
-            commentRequest.setTaskId(taskId);
-            commentService.addComment(commentRequest);
-            ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Comment added successfully");
-            return ResponseEntityBuilder.build(apiSuccess);
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
+        commentRequest.setTaskId(taskId);
+        commentService.addComment(commentRequest);
+        ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Comment added successfully");
+        return ResponseEntityBuilder.build(apiSuccess);
+
     }
 
     @PostMapping("/{taskId}/delete-comment/{commentId}")
     public ResponseEntity<?> deleteComment(@PathVariable Integer taskId, @PathVariable Integer commentId) throws Exception {
-        try {
-            commentService.deleteComment(commentId);
-            ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Comment deleted successfully");
-            return ResponseEntityBuilder.build(apiSuccess);
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
+        commentService.deleteComment(commentId);
+        ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Comment deleted successfully");
+        return ResponseEntityBuilder.build(apiSuccess);
     }
 
     @PostMapping("/{taskId}/update-comment/{commentId}")
     public ResponseEntity<?> updateComment(@PathVariable Integer taskId, @PathVariable Integer commentId, @RequestBody CommentRequest commentRequest) throws Exception {
-        try {
-            commentRequest.setTaskId(taskId);
-            commentService.updateComment(commentId, commentRequest);
-            ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Comment updated successfully");
-            return ResponseEntityBuilder.build(apiSuccess);
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
+        commentRequest.setTaskId(taskId);
+        commentService.updateComment(commentId, commentRequest);
+        ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Comment updated successfully");
+        return ResponseEntityBuilder.build(apiSuccess);
+
     }
 
 

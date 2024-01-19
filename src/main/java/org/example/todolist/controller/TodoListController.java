@@ -45,11 +45,7 @@ public class TodoListController {
     }
     @PutMapping("{todoListId}/create-task")
     public ResponseEntity<?> createTask(@PathVariable Integer todoListId) throws Exception {
-        try {
-            return ResponseEntity.ok(taskService.createWith(todoListId));
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
+        return ResponseEntity.ok(taskService.createWith(todoListId));
     }
 
     @PostMapping("/create")
@@ -64,11 +60,7 @@ public class TodoListController {
 
     @PostMapping("/update/{todoListId}")
     public ResponseEntity<?> updateTodoListById(@PathVariable Integer todoListId, @RequestBody TodoListRequest todoList) throws Exception {
-        try {
-            return ResponseEntity.ok(todolistService.update(todoListId, todoList));
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
+        return ResponseEntity.ok(todolistService.update(todoListId, todoList));
     }
 
 
