@@ -1,4 +1,4 @@
-package org.example.todolist.security;
+package org.example.todolist.config.security;
 
 import org.example.todolist.filter.JwtRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-public class WebSecurityConfiguration {
+public class WebSecurityConfig {
 
     @Autowired
     private JwtRequestFilter requestFilter;
