@@ -1,5 +1,6 @@
 package org.example.todolist.serviceImpl;
 
+import org.example.todolist.dto.request.AuthenticationRequest;
 import org.example.todolist.dto.request.ChangePasswordRequest;
 import org.example.todolist.dto.request.SignupRequest;
 import org.example.todolist.dto.response.SignupResponse;
@@ -10,8 +11,16 @@ import org.example.todolist.repository.UserRepository;
 import org.example.todolist.service.AuthService;
 import org.example.todolist.service.StateService;
 import org.example.todolist.service.TaskService;
+import org.example.todolist.service.UserService;
+import org.example.todolist.util.JwtUtil;
+import org.example.todolist.web.ApiError;
+import org.example.todolist.web.ResponseEntityBuilder;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,11 +31,17 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
+    private UserService userService;
+    @Autowired
     private RoleRepository roleRepository;
     @Autowired
     private StateService stateService;
     @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
     private ModelMapper mapper;
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @Override
     public SignupResponse createUser(SignupRequest signupRequest) throws Exception {
@@ -46,17 +61,17 @@ public class AuthServiceImpl implements AuthService {
         return mapper.map(createdUser, SignupResponse.class);
     }
 
+
+
     @Override
-    public Boolean changePassword(ChangePasswordRequest changePasswordRequest) throws Exception {
-        if (userRepository.findByEmail(changePasswordRequest.getEmail()) == null) {
-            throw new Exception("Email not found");
+    public String login(AuthenticationRequest authenticationRequest) throws Exception {
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(),
+                    authenticationRequest.getPassword()));
+        } catch (BadCredentialsException e) {
+            throw new Exception("Email or password is incorrect");
         }
-        User user = userRepository.findByEmail(changePasswordRequest.getEmail());
-        if (new BCryptPasswordEncoder().matches(changePasswordRequest.getOldPassword(), user.getPassword())) {
-            user.setPassword(new BCryptPasswordEncoder().encode(changePasswordRequest.getNewPassword()));
-            userRepository.save(user);
-            return true;
-        }
-        throw new Exception("Old password is incorrect");
+        userService.updateLastLogin(authenticationRequest.getEmail());
+        return jwtUtil.generateToken(authenticationRequest.getEmail());
     }
 }

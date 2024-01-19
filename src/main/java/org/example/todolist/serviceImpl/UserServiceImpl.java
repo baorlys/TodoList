@@ -1,5 +1,6 @@
 package org.example.todolist.serviceImpl;
 
+import org.example.todolist.dto.request.ChangePasswordRequest;
 import org.example.todolist.dto.request.UserRequest;
 import org.example.todolist.dto.response.UserResponse;
 import org.example.todolist.model.Role;
@@ -9,6 +10,7 @@ import org.example.todolist.repository.UserRepository;
 import org.example.todolist.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -59,6 +61,19 @@ public class UserServiceImpl implements UserService {
         user.setLastloginAt(new Timestamp(System.currentTimeMillis()));
         userRepository.save(user);
     }
+    @Override
+    public Boolean changePassword(ChangePasswordRequest changePasswordRequest) throws Exception {
+        if (userRepository.findByEmail(changePasswordRequest.getEmail()) == null) {
+            throw new Exception("Email not found");
+        }
+        User user = userRepository.findByEmail(changePasswordRequest.getEmail());
+        if (new BCryptPasswordEncoder().matches(changePasswordRequest.getOldPassword(), user.getPassword())) {
+            user.setPassword(new BCryptPasswordEncoder().encode(changePasswordRequest.getNewPassword()));
+            userRepository.save(user);
+            return true;
+        }
+        throw new Exception("Old password is incorrect");
+    }
 
     @Override
     public UserResponse update(Integer id, UserRequest userRequest) {
@@ -77,7 +92,13 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public Boolean delete(Integer id) {
-        return null;
+    public Boolean delete(Integer id) throws Exception {
+        try {
+            userRepository.deleteById(id);
+            return true;
+        }  catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+
     }
 }

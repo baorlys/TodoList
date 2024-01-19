@@ -29,50 +29,23 @@ import java.util.List;
 
 @RestController
 public class AuthenticationController {
-    @Autowired
-    private AuthenticationManager authenticationManager;
+
     @Autowired
     private AuthService authService;
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private JwtUtil jwtUtil;
 
     @PostMapping("/auth")
-    public ResponseEntity<?> createAuthenticationToken(@Valid @RequestBody AuthenticationRequest authenticationRequest,
-                                                    HttpServletRequest request) {
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(),
-                    authenticationRequest.getPassword()));
-        } catch (BadCredentialsException e) {
-            ApiError apiError = new ApiError(HttpStatus.NOT_FOUND, "Email or password is incorrect",
-                    request.getRequestURI());
-            return ResponseEntityBuilder.build(apiError);
-        }
-        final String jwt = jwtUtil.generateToken(authenticationRequest.getEmail());
-        userService.updateLastLogin(authenticationRequest.getEmail());
+    public ResponseEntity<?> createAuthenticationToken(@Valid @RequestBody AuthenticationRequest authenticationRequest)
+            throws Exception {
+        String jwt = authService.login(authenticationRequest);
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
 
-    @PutMapping("/change-password")
-    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequest ChangePasswordRequest) throws Exception {
-        try {
-            Boolean changePassword = authService.changePassword(ChangePasswordRequest);
-            return new ResponseEntity<>(changePassword, HttpStatus.OK);
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
-    }
-
     @PutMapping("/sign-up")
-    public ResponseEntity<?> signUp(@RequestBody SignupRequest signupRequest) throws Exception {
-        try {
-            SignupResponse createdUser = authService.createUser(signupRequest);
-            return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
+    public ResponseEntity<?> signUp(@Valid @RequestBody SignupRequest signupRequest)
+            throws Exception {
+       SignupResponse createdUser = authService.createUser(signupRequest);
+       return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+
     }
 
 

@@ -1,9 +1,11 @@
 package org.example.todolist.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.example.todolist.dto.request.ChangePasswordRequest;
 import org.example.todolist.dto.request.UserRequest;
 import org.example.todolist.dto.response.UserResponse;
 import org.example.todolist.model.User;
+import org.example.todolist.service.AuthService;
 import org.example.todolist.service.UserService;
 import org.example.todolist.serviceImpl.UserServiceImpl;
 import org.example.todolist.web.ApiError;
@@ -24,15 +26,19 @@ public class UserController {
     private UserService userService;
 
 
-
     @GetMapping("/{userId}")
     public ResponseEntity<?> getUserById(@PathVariable Integer userId) throws Exception {
          return ResponseEntity.ok(userService.findById(userId));
     }
 
-    @PostMapping("/update/{userId}")
+    @PostMapping("/{userId}/update")
     public ResponseEntity<?> updateUserById(@PathVariable Integer userId, @RequestBody UserRequest userRequest) throws Exception {
         return ResponseEntity.ok(userService.update(userId, userRequest));
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) throws Exception {
+        return ResponseEntity.ok(userService.changePassword(changePasswordRequest));
     }
 
 }
