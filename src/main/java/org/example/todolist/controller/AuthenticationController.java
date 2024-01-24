@@ -33,7 +33,7 @@ public class AuthenticationController {
     @Autowired
     private AuthService authService;
 
-    @PostMapping("/auth")
+    @GetMapping("/auth")
     public ResponseEntity<?> createAuthenticationToken(@Valid @RequestBody AuthenticationRequest authenticationRequest)
             throws Exception {
         String jwt = authService.login(authenticationRequest);

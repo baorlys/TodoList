@@ -41,14 +41,14 @@ public class TaskController {
         return ResponseEntityBuilder.build(apiSuccess);
     }
 
-    @DeleteMapping("/delete/{taskId}")
+    @PostMapping("/delete/{taskId}")
     public ResponseEntity<?> deleteTaskById(@PathVariable Integer taskId) throws Exception {
         taskService.hide(taskId);
         ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Task deleted successfully");
         return ResponseEntityBuilder.build(apiSuccess);
     }
 
-    @PostMapping("/{taskId}/add-assignee")
+    @PutMapping("/{taskId}/add-assignee")
     public ResponseEntity<?> addAssignee(@PathVariable Integer taskId, @RequestBody AssigneeRequest assigneeRequest) throws Exception {
         assigneeRequest.setTaskId(taskId);
         assigneeService.addAssignee(assigneeRequest);
@@ -69,7 +69,7 @@ public class TaskController {
         return ResponseEntity.ok(commentService.getComments(taskId));
     }
 
-    @PostMapping("/{taskId}/add-comment")
+    @PutMapping("/{taskId}/add-comment")
     public ResponseEntity<?> addComment(@PathVariable Integer taskId, @RequestBody CommentRequest commentRequest) throws Exception {
         commentRequest.setTaskId(taskId);
         commentService.addComment(commentRequest);

@@ -15,7 +15,7 @@ public class StateController {
     @Autowired
     private StateService stateService;
 
-    @PostMapping("{userId}/create-state")
+    @PutMapping("{userId}/create-state")
     public ResponseEntity<?> getAllState(@PathVariable Integer userId, @RequestBody StateRequest stateRequest) throws Exception {
         stateService.createState(userId, stateRequest);
         ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "State created successfully");

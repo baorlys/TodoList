@@ -22,7 +22,7 @@ public class AdminController {
     public ResponseEntity<List<?>> getAllUserByIsHidden(@PathVariable Boolean isHidden) {
         return ResponseEntity.ok(userService.findAllByIsHidden(isHidden));
     }
-    @PostMapping("/delete/{userId}")
+    @DeleteMapping("/delete/{userId}")
     public ResponseEntity<?> deleteUserById(@PathVariable Integer userId) throws Exception {
         return ResponseEntity.ok(userService.delete(userId));
     }

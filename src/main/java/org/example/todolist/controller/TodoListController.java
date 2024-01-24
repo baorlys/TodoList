@@ -1,13 +1,8 @@
 package org.example.todolist.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.example.todolist.dto.request.TodoListRequest;
-import org.example.todolist.dto.response.TodoListResponse;
-import org.example.todolist.model.Task;
-import org.example.todolist.model.TodoList;
 import org.example.todolist.service.TaskService;
 import org.example.todolist.service.TodoListService;
-import org.example.todolist.web.ApiError;
 import org.example.todolist.web.ApiSuccess;
 import org.example.todolist.web.ResponseEntityBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +55,7 @@ public class TodoListController {
 
     }
 
-    @DeleteMapping("/delete/{todoListId}")
+    @PostMapping("/delete/{todoListId}")
     public ResponseEntity<?> deleteTodoListById(@PathVariable Integer todoListId) throws Exception {
         todolistService.hide(todoListId);
         ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Todo list deleted successfully");
