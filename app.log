@@ -439,3 +439,5 @@ Action:
 
 Consider defining a bean of type 'org.springframework.security.authentication.AuthenticationManager' in your configuration.
 
+2024-01-26T16:39:46.038+07:00  INFO 7252 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-01-26T16:39:46.041+07:00  INFO 7252 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
