@@ -1,4 +1,4 @@
-package org.example.todolist.config.security;
+package org.example.todolist.config;
 
 import org.example.todolist.filter.JwtRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
