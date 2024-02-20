@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 
 @Data
-@Builder
 public class SignupRequest {
     @NotBlank(message = "Invalid Email: Empty email")
     @NotNull(message = "Invalid Email: Email is NULL")
@@ -13,7 +12,7 @@ public class SignupRequest {
     private String email;
     @NotBlank(message = "Invalid Password: Empty password")
     @NotNull(message = "Invalid Password: Password is NULL")
-    @Size(min = 8, max = 30, message = "Invalid Password: Must be of 8 - 30 characters")
+    @Size(min = 8, max = 30, message = "Invalid Password: Must be more than 8 characters")
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$", message = "Invalid Password: Must contain at least " +
             "1 uppercase, 1 lowercase and 1 number")
     private String password;

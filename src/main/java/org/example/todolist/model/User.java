@@ -50,4 +50,5 @@ public class User {
 
     @Column(name = "is_hidden")
     private Boolean isHidden;
+
 }

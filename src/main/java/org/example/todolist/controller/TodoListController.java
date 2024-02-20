@@ -26,9 +26,10 @@ public class TodoListController {
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<?>> getAllTodoListByUserId(@PathVariable Integer userId ) {
+    public ResponseEntity<List<?>> getAllTodoListByUser(@PathVariable Integer userId ) {
         return ResponseEntity.ok(todolistService.getAllTodoList(userId));
     }
+
 
     @GetMapping("/user/{userId}/{stateId}")
     public ResponseEntity<List<?>> getAllTodoListByUserIdAndStateId(@PathVariable Integer userId,
@@ -47,7 +48,7 @@ public class TodoListController {
         return ResponseEntityBuilder.build(apiSuccess);
     }
 
-    @PostMapping("/create")
+    @PutMapping("/create")
     public ResponseEntity<?> createTodoList(@RequestBody TodoListRequest todolist) {
         todolistService.create(todolist);
         ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Todo list created successfully");
