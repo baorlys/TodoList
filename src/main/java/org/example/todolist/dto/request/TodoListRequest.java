@@ -8,8 +8,9 @@ import java.sql.Timestamp;
 public class TodoListRequest {
     private String title;
     private String description;
-    private Integer stateId;
+    private Integer typeId;
     private Integer priorityId;
     private Integer order;
     private Timestamp estimation;
+    private Integer userId;
 }

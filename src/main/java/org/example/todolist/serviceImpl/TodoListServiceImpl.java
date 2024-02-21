@@ -5,9 +5,11 @@ import org.example.todolist.dto.response.TodoListResponse;
 import org.example.todolist.model.Priority;
 import org.example.todolist.model.State;
 import org.example.todolist.model.TodoList;
+import org.example.todolist.model.User;
 import org.example.todolist.repository.PriorityRepository;
 import org.example.todolist.repository.StateRepository;
 import org.example.todolist.repository.TodolistRepository;
+import org.example.todolist.repository.UserRepository;
 import org.example.todolist.service.TaskService;
 import org.example.todolist.service.TodoListService;
 import org.modelmapper.ModelMapper;
@@ -30,15 +32,20 @@ public class TodoListServiceImpl implements TodoListService {
     private PriorityRepository priorityRepository;
     @Autowired
     private TaskService taskService;
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     public TodoListResponse create(TodoListRequest todoListRequest) {
         TodoList todolist = new TodoList();
+        User user = userRepository.findById(todoListRequest.getUserId()).orElse(null);
+        todolist.setUser(user);
         return getTodoListResponse(todoListRequest, todolist);
     }
 
     private TodoListResponse getTodoListResponse(TodoListRequest todoListRequest, TodoList todolist) {
         Priority priority = priorityRepository.findById(todoListRequest.getPriorityId()).orElse(null);
-        State state = stateRepository.findById(todoListRequest.getStateId()).orElse(null);
+        State state = stateRepository.findByUserIdAndType(todoListRequest.getUserId(), todoListRequest.getTypeId());
         todolist.setTitle(todoListRequest.getTitle());
         todolist.setDescription(todoListRequest.getDescription());
         todolist.setOrder(todoListRequest.getOrder());
@@ -46,6 +53,7 @@ public class TodoListServiceImpl implements TodoListService {
         todolist.setState(state);
         todolist.setPriority(priority);
         todolist.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
+        todolist.setIsHidden(false);
         todolistRepository.save(todolist);
         TodoListResponse todolistResponse = mapper.map(todolist, TodoListResponse.class);
         todolistResponse.setTasks(taskService.getAllByTodolist(todolist));
