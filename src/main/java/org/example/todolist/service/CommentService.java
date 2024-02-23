@@ -15,5 +15,5 @@ public interface CommentService {
 
     void updateComment(Integer commentId, CommentRequest commentRequest) throws Exception;
 
-    List<CommentResponse> getComments(Integer taskId) throws Exception;
+    List<CommentResponse> getComments(Integer todoListId) throws Exception;
 }

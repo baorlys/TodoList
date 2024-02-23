@@ -28,8 +28,8 @@ public class Comment {
     private User user;
 
     @ManyToOne()
-    @JoinColumn(name = "task_id", referencedColumnName = "id")
-    private Task task;
+    @JoinColumn(name = "todolist_id", referencedColumnName = "id")
+    private TodoList todoList;
 
     @Column(name = "created_at")
     private Timestamp createdAt;

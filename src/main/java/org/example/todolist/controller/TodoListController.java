@@ -1,6 +1,10 @@
 package org.example.todolist.controller;
 
+import org.example.todolist.dto.request.AssigneeRequest;
+import org.example.todolist.dto.request.CommentRequest;
 import org.example.todolist.dto.request.TodoListRequest;
+import org.example.todolist.service.AssigneeService;
+import org.example.todolist.service.CommentService;
 import org.example.todolist.service.TaskService;
 import org.example.todolist.service.TodoListService;
 import org.example.todolist.web.ApiSuccess;
@@ -20,6 +24,10 @@ public class TodoListController {
     private TodoListService todolistService;
     @Autowired
     private TaskService taskService;
+    @Autowired
+    private AssigneeService assigneeService;
+    @Autowired
+    private CommentService commentService;
     @GetMapping("/")
     public ResponseEntity<List<?>> getAllTodoList() {
         return ResponseEntity.ok(todolistService.getAllTodoList());
@@ -41,12 +49,7 @@ public class TodoListController {
     public ResponseEntity<?> getTodoList(@PathVariable Integer todoListId) {
         return ResponseEntity.ok(todolistService.getTodoListResponse(todoListId));
     }
-    @PutMapping("{todoListId}/create-task")
-    public ResponseEntity<?> createTask(@PathVariable Integer todoListId) throws Exception {
-        taskService.createWith(todoListId);
-        ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Task created successfully");
-        return ResponseEntityBuilder.build(apiSuccess);
-    }
+
 
     @PutMapping("/create")
     public ResponseEntity<?> createTodoList(@RequestBody TodoListRequest todolist) {
@@ -69,6 +72,52 @@ public class TodoListController {
         todolistService.update(todoListId, todoList);
         ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Todo list updated successfully");
         return ResponseEntityBuilder.build(apiSuccess);
+    }
+
+    @PutMapping("/{todoListId}/add-assignee")
+    public ResponseEntity<?> addAssignee(@PathVariable Integer todoListId, @RequestBody AssigneeRequest assigneeRequest) throws Exception {
+        assigneeRequest.setTodoListId(todoListId);
+        assigneeService.addAssignee(assigneeRequest);
+        ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Assignee added successfully");
+        return ResponseEntityBuilder.build(apiSuccess);
+
+    }
+
+    @PostMapping("/{todoListId}/delete-assignee")
+    public ResponseEntity<?> delete(@PathVariable Integer todoListId, @RequestBody String email) throws Exception {
+        assigneeService.deleteAssignee(todoListId,email);
+        ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Assignee deleted successfully");
+        return ResponseEntityBuilder.build(apiSuccess);
+    }
+
+    @GetMapping("/{todoListId}/get-comments")
+    public ResponseEntity<List<?>> getComments(@PathVariable Integer todoListId) throws Exception {
+        return ResponseEntity.ok(commentService.getComments(todoListId));
+    }
+
+    @PutMapping("/{todoListId}/add-comment")
+    public ResponseEntity<?> addComment(@PathVariable Integer todoListId, @RequestBody CommentRequest commentRequest) throws Exception {
+        commentRequest.setTodoListId(todoListId);
+        commentService.addComment(commentRequest);
+        ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Comment added successfully");
+        return ResponseEntityBuilder.build(apiSuccess);
+
+    }
+
+    @PostMapping("/{todoListId}/delete-comment/{commentId}")
+    public ResponseEntity<?> deleteComment(@PathVariable Integer todoListId, @PathVariable Integer commentId) throws Exception {
+        commentService.hide(commentId);
+        ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Comment deleted successfully");
+        return ResponseEntityBuilder.build(apiSuccess);
+    }
+
+    @PostMapping("/{todoListId}/update-comment/{commentId}")
+    public ResponseEntity<?> updateComment(@PathVariable Integer todoListId, @PathVariable Integer commentId, @RequestBody CommentRequest commentRequest) throws Exception {
+        commentRequest.setTodoListId(todoListId);
+        commentService.updateComment(commentId, commentRequest);
+        ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Comment updated successfully");
+        return ResponseEntityBuilder.build(apiSuccess);
+
     }
 
 

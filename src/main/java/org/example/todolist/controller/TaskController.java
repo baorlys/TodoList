@@ -33,6 +33,16 @@ public class TaskController {
     public ResponseEntity<?> getTaskById(@PathVariable Integer taskId) throws Exception {
         return ResponseEntity.ok(taskService.find(taskId));
     }
+    @GetMapping("/{todoListId}/tasks")
+    public ResponseEntity<?> getAllTaskByTodoListId(@PathVariable Integer todoListId) {
+        return ResponseEntity.ok(taskService.getAllByTodolist(todoListId));
+    }
+    @PutMapping("{todoListId}/create-task")
+    public ResponseEntity<?> createTask(@PathVariable Integer todoListId) throws Exception {
+        taskService.createWith(todoListId);
+        ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Task created successfully");
+        return ResponseEntityBuilder.build(apiSuccess);
+    }
 
     @PostMapping("/update/{taskId}")
     public ResponseEntity<?> updateTaskById(@PathVariable Integer taskId, @RequestBody TaskRequest taskRequest) throws Exception {
@@ -48,51 +58,9 @@ public class TaskController {
         return ResponseEntityBuilder.build(apiSuccess);
     }
 
-    @PutMapping("/{taskId}/add-assignee")
-    public ResponseEntity<?> addAssignee(@PathVariable Integer taskId, @RequestBody AssigneeRequest assigneeRequest) throws Exception {
-        assigneeRequest.setTaskId(taskId);
-        assigneeService.addAssignee(assigneeRequest);
-        ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Assignee added successfully");
-        return ResponseEntityBuilder.build(apiSuccess);
 
-    }
 
-    @PostMapping("/{taskId}/delete-assignee")
-    public ResponseEntity<?> delete(@PathVariable Integer taskId, @RequestBody String email) throws Exception {
-        assigneeService.deleteAssignee(taskId,email);
-        ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Assignee deleted successfully");
-        return ResponseEntityBuilder.build(apiSuccess);
-    }
 
-    @GetMapping("/{taskId}/get-comments")
-    public ResponseEntity<List<?>> getComments(@PathVariable Integer taskId) throws Exception {
-        return ResponseEntity.ok(commentService.getComments(taskId));
-    }
-
-    @PutMapping("/{taskId}/add-comment")
-    public ResponseEntity<?> addComment(@PathVariable Integer taskId, @RequestBody CommentRequest commentRequest) throws Exception {
-        commentRequest.setTaskId(taskId);
-        commentService.addComment(commentRequest);
-        ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Comment added successfully");
-        return ResponseEntityBuilder.build(apiSuccess);
-
-    }
-
-    @PostMapping("/{taskId}/delete-comment/{commentId}")
-    public ResponseEntity<?> deleteComment(@PathVariable Integer taskId, @PathVariable Integer commentId) throws Exception {
-        commentService.hide(commentId);
-        ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Comment deleted successfully");
-        return ResponseEntityBuilder.build(apiSuccess);
-    }
-
-    @PostMapping("/{taskId}/update-comment/{commentId}")
-    public ResponseEntity<?> updateComment(@PathVariable Integer taskId, @PathVariable Integer commentId, @RequestBody CommentRequest commentRequest) throws Exception {
-        commentRequest.setTaskId(taskId);
-        commentService.updateComment(commentId, commentRequest);
-        ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Comment updated successfully");
-        return ResponseEntityBuilder.build(apiSuccess);
-
-    }
 
 
 }

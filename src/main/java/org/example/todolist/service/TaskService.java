@@ -9,7 +9,9 @@ import java.util.List;
 
 
 public interface TaskService {
-    List<TaskResponse> getAllByTodolist(TodoList todolist);
+    List<TaskResponse> getAllByTodolist(Integer todoListId);
+    List<TaskResponse> getAllByTodolist(TodoList todoList);
+
 
     List<TaskResponse> getAllByTodolistAndState(TodoList todolist, Integer stateId);
 

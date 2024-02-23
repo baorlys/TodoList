@@ -5,9 +5,11 @@ import org.example.todolist.dto.response.CommentResponse;
 import org.example.todolist.dto.response.UserResponse;
 import org.example.todolist.model.Comment;
 import org.example.todolist.model.Task;
+import org.example.todolist.model.TodoList;
 import org.example.todolist.model.User;
 import org.example.todolist.repository.CommentRepository;
 import org.example.todolist.repository.TaskRepository;
+import org.example.todolist.repository.TodolistRepository;
 import org.example.todolist.repository.UserRepository;
 import org.example.todolist.service.CommentService;
 import org.modelmapper.ModelMapper;
@@ -29,14 +31,16 @@ public class CommentServiceImpl implements CommentService {
     private UserRepository userRepository;
     @Autowired
     private ModelMapper mapper;
+    @Autowired
+    private TodolistRepository todolistRepository;
 
     @Override
     public void addComment(CommentRequest commentRequest) throws Exception {
         Comment comment = new Comment();
         User user = userRepository.findById(commentRequest.getUserId()).orElse(null);
         comment.setUser(user);
-        Task task = taskRepository.findById(commentRequest.getTaskId()).orElse(null);
-        comment.setTask(task);
+        TodoList todoList = todolistRepository.findById(commentRequest.getTodoListId()).orElse(null);
+        comment.setTodoList(todoList);
         comment.setContent(commentRequest.getContent());
         comment.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         try {
@@ -87,10 +91,10 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentResponse> getComments(Integer taskId) throws Exception {
+    public List<CommentResponse> getComments(Integer todoListId) throws Exception {
         List<Comment> comments = null;
         try {
-            comments = commentRepository.findAllByTaskId(taskId);
+            comments = commentRepository.findAllByTodoListId(todoListId);
         } catch (Exception e) {
             throw new Exception("Cannot get comments");
         }

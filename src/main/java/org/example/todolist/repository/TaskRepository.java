@@ -10,6 +10,9 @@ import java.util.List;
 
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Integer> {
+    @Query("SELECT t FROM Task t WHERE t.todolist.id = ?1")
+    List<Task> getAllByTodoListId(Integer todoListId);
+
     @Query("SELECT t FROM Task t WHERE t.todolist = ?1")
     List<Task> getAllByTodolist(TodoList todolist);
 

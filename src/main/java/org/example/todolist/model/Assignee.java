@@ -19,8 +19,8 @@ import java.sql.Timestamp;
 public class Assignee {
     @Id
     @ManyToOne()
-    @JoinColumn(name = "task_id", nullable = false, referencedColumnName = "id")
-    private Task task;
+    @JoinColumn(name = "todolist_id", nullable = false, referencedColumnName = "id")
+    private TodoList todoList;
     @Id
     @ManyToOne()
     @JoinColumn(name = "user_id",referencedColumnName = "id")

@@ -38,6 +38,7 @@ public class TodoListServiceImpl implements TodoListService {
     @Override
     public TodoListResponse create(TodoListRequest todoListRequest) {
         TodoList todolist = new TodoList();
+        todolist.setPriority(priorityRepository.findById(4).orElse(null));
         User user = userRepository.findById(todoListRequest.getUserId()).orElse(null);
         todolist.setUser(user);
         return getTodoListResponse(todoListRequest, todolist);

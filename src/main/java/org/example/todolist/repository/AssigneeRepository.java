@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AssigneeRepository extends JpaRepository<Assignee, Integer> {
-    @Query("SELECT a FROM Assignee a WHERE a.task.id = ?1 AND a.user.email = ?2")
-    Assignee find(Integer taskId, String email);
+    @Query("SELECT a FROM Assignee a WHERE a.todoList.id = ?1 AND a.user.email = ?2")
+    Assignee find(Integer todoListId, String email);
 }

@@ -28,6 +28,9 @@ public class Task {
     @Column(name = "description")
     private String description;
 
+    @Column(name= "is_completed", columnDefinition = "boolean default false")
+
+    private Boolean isCompleted;
 
     @ManyToOne()
     @JoinColumn(name = "priority_id")

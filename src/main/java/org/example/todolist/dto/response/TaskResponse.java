@@ -12,9 +12,9 @@ public class TaskResponse {
     private Integer id;
     private String title;
     private String description;
+    private Boolean isCompleted;
     private StateResponse state;
     private PriorityResponse priority;
-    private List<AssigneeResponse> assignees;
     private Integer order;
     private Timestamp estimation;
 }

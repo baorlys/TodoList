@@ -12,6 +12,7 @@ import java.util.Map;
 public class TaskRequest {
     private String title;
     private String description;
+    private Boolean isCompleted;
     private Integer stateId;
     private Integer priorityId;
     private Integer todolistId;

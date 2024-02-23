@@ -12,6 +12,6 @@ import java.util.List;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
 
-    @Query("SELECT c FROM Comment c WHERE c.task.id = ?1")
-    List<Comment> findAllByTaskId(Integer taskId);
+    @Query("SELECT c FROM Comment c WHERE c.todoList.id = ?1")
+    List<Comment> findAllByTodoListId(Integer todoListId);
 }

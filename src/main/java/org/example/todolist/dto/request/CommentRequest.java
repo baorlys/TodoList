@@ -6,5 +6,5 @@ import lombok.Data;
 public class CommentRequest {
     private String content;
     private Integer userId;
-    private Integer taskId;
+    private Integer todoListId;
 }

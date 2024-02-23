@@ -33,8 +33,18 @@ public class TaskServiceImpl implements TaskService {
     @Autowired
     private ModelMapper mapper;
     @Override
-    public List<TaskResponse> getAllByTodolist(TodoList todolist) {
-        List<Task> tasks = taskRepository.getAllByTodolist(todolist);
+    public List<TaskResponse> getAllByTodolist(Integer todoListId) {
+        List<Task> tasks = taskRepository.getAllByTodoListId(todoListId);
+        return getTaskResponses(tasks);
+    }
+
+    @Override
+    public List<TaskResponse> getAllByTodolist(TodoList todoList) {
+        List<Task> tasks = taskRepository.getAllByTodolist(todoList);
+        return getTaskResponses(tasks);
+    }
+
+    private List<TaskResponse> getTaskResponses(List<Task> tasks) {
         List<TaskResponse> taskResponses = new ArrayList<>();
         for(Task task : tasks){
             TaskResponse taskResponse = mapper.map(task, TaskResponse.class);
@@ -73,6 +83,10 @@ public class TaskServiceImpl implements TaskService {
     public TaskResponse createWith(Integer todolistId) throws Exception {
         Task task = new Task();
         TodoList todolist = todolistRepository.findById(todolistId).orElse(null);
+        task.setTitle("New Task");
+        task.setDescription("");
+        task.setTodolist(todolist);
+        task.setOrder(-1);
         task.setTodolist(todolist);
         task.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         try {
@@ -96,6 +110,7 @@ public class TaskServiceImpl implements TaskService {
             }
             taskUpdated.setTitle(taskRequest.getTitle());
             taskUpdated.setDescription(taskRequest.getDescription());
+            taskUpdated.setIsCompleted(taskRequest.getIsCompleted());
             taskUpdated.setPriority(priority);
             taskUpdated.setState(state);
             taskUpdated.setTodolist(todolist);
