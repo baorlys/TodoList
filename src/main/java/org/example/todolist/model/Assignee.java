@@ -14,17 +14,10 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @Entity
-@IdClass(AssigneeId.class)
 @Table(name = "assignees")
 public class Assignee {
-    @Id
-    @ManyToOne()
-    @JoinColumn(name = "todolist_id", nullable = false, referencedColumnName = "id")
-    private TodoList todoList;
-    @Id
-    @ManyToOne()
-    @JoinColumn(name = "user_id",referencedColumnName = "id")
-    private User user;
+    @EmbeddedId
+    private AssigneeId id;
     @ManyToOne()
     @JoinColumn(name ="permission_id",referencedColumnName = "id")
     private Permission permission;

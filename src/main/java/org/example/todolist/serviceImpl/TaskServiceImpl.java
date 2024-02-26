@@ -88,6 +88,8 @@ public class TaskServiceImpl implements TaskService {
         task.setTodolist(todolist);
         task.setOrder(-1);
         task.setTodolist(todolist);
+        task.setIsHidden(false);
+        task.setIsCompleted(false);
         task.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         try {
             taskRepository.save(task);
@@ -102,20 +104,20 @@ public class TaskServiceImpl implements TaskService {
         Optional<Task> taskToUpdate = taskRepository.findById(id);
         if(taskToUpdate.isPresent()) {
             Task taskUpdated = taskToUpdate.get();
-            Priority priority = priorityRepository.findById(taskRequest.getPriorityId()).orElse(null);
-            State state = stateRepository.findById(taskRequest.getStateId()).orElse(null);
-            TodoList todolist = todolistRepository.findById(taskRequest.getTodolistId()).orElse(null);
-            if(taskRequest.getEstimation().before(taskRequest.getEstimation())){
-                throw new Exception("Estimation of task must be before deadline of Todo List");
-            }
+//            Priority priority = priorityRepository.findById(4).orElse(null);
+//            State state = stateRepository.findById(taskRequest.getStateId()).orElse(null);
+//            TodoList todolist = todolistRepository.findById(taskRequest.getTodolistId()).orElse(null);
+//            if(taskRequest.getEstimation().before(taskRequest.getEstimation())){
+//                throw new Exception("Estimation of task must be before deadline of Todo List");
+//            }
             taskUpdated.setTitle(taskRequest.getTitle());
             taskUpdated.setDescription(taskRequest.getDescription());
             taskUpdated.setIsCompleted(taskRequest.getIsCompleted());
-            taskUpdated.setPriority(priority);
-            taskUpdated.setState(state);
-            taskUpdated.setTodolist(todolist);
+//            taskUpdated.setPriority(priority);
+//            taskUpdated.setState(state);
+//            taskUpdated.setTodolist(todolist);
             taskUpdated.setOrder(taskRequest.getOrder());
-            taskUpdated.setEstimation(taskRequest.getEstimation());
+//            taskUpdated.setEstimation(taskRequest.getEstimation());
             taskUpdated.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
             taskRepository.save(taskUpdated);
             return mapper.map(taskUpdated, TaskResponse.class);

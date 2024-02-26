@@ -14,6 +14,10 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllUser() {
+        return ResponseEntity.ok(userService.findAll());
+    }
 
     @GetMapping("/{userId}")
     public ResponseEntity<?> getUserById(@PathVariable Integer userId) throws Exception {

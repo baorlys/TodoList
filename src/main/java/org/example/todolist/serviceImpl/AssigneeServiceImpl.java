@@ -5,6 +5,7 @@ import org.example.todolist.dto.response.AssigneeResponse;
 import org.example.todolist.dto.response.UserResponse;
 import org.example.todolist.enums.PermissionAccess;
 import org.example.todolist.model.*;
+import org.example.todolist.model.compositeKey.AssigneeId;
 import org.example.todolist.repository.*;
 import org.example.todolist.service.AssigneeService;
 import org.modelmapper.ModelMapper;
@@ -12,6 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 public class AssigneeServiceImpl implements AssigneeService {
@@ -31,17 +36,17 @@ public class AssigneeServiceImpl implements AssigneeService {
         TodoList todoList = todolistRepository.findById(assigneeRequest.getTodoListId()).orElse(null);
         User user = userRepository.findByEmail(assigneeRequest.getEmail());
         Permission permission = permissionRepository.findById(assigneeRequest.getPermissionId()).orElse(null);
-        UserResponse userResponse = mapper.map(user, UserResponse.class);
+//        UserResponse userResponse = mapper.map(user, UserResponse.class);
         Assignee assignee = new Assignee();
-        assignee.setTodoList(todoList);
-        assignee.setUser(user);
+        AssigneeId assigneeId = new AssigneeId(todoList,user);
+        assignee.setId(assigneeId);
         assignee.setPermission(permission);
         assignee.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         try {
             assigneeRepository.save(assignee);
-            AssigneeResponse assigneeResponse = new AssigneeResponse();
-            assigneeResponse.setUser(userResponse);
-            assigneeResponse.setPermission(PermissionAccess.VIEW);
+//            AssigneeResponse assigneeResponse = new AssigneeResponse();
+//            assigneeResponse.setUser(userResponse);
+//            assigneeResponse.setPermission(PermissionAccess.VIEW);
         } catch (Exception e) {
             throw new Exception("Assignee already exists");
         }
@@ -55,7 +60,7 @@ public class AssigneeServiceImpl implements AssigneeService {
             assignee.setPermission(permission);
             assigneeRepository.save(assignee);
             AssigneeResponse assigneeResponse = new AssigneeResponse();
-            assigneeResponse.setUser(mapper.map(assignee.getUser(), UserResponse.class));
+            assigneeResponse.setUser(mapper.map(assignee.getId().getUser(), UserResponse.class));
             assigneeResponse.setPermission(PermissionAccess.getById(permission.getId()));
             return assigneeResponse;
         } catch (Exception e) {
@@ -86,4 +91,26 @@ public class AssigneeServiceImpl implements AssigneeService {
             throw new Exception("Assignee not found");
         }
     }
+
+    @Override
+    public List<AssigneeResponse> getAssigneeList(Integer todoListId) throws Exception {
+        try {
+            List<Assignee> assigneeList = assigneeRepository.findAllByTodoList(todoListId);
+            List<AssigneeResponse> assigneeResponseList = new ArrayList<>();
+            for(Assignee assignee: assigneeList) {
+                AssigneeResponse assigneeResponse = new AssigneeResponse();
+                if(assignee.getId().getUser().getMobileHidden()) {
+                    assigneeResponse.setUser(mapper.map(assignee.getId().getUser(), UserResponse.class));
+                    assigneeResponse.getUser().setMobile(null);
+                } else {
+                    assigneeResponse.setUser(mapper.map(assignee.getId().getUser(), UserResponse.class));
+                }
+                assigneeResponse.setPermission(PermissionAccess.getById(assignee.getPermission().getId()));
+            }
+            return assigneeResponseList;
+        } catch (Exception e) {
+            throw new Exception("Assignee not found");
+        }
+    }
+
 }

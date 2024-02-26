@@ -29,19 +29,19 @@ public class TodoListController {
     @Autowired
     private CommentService commentService;
     @GetMapping("/")
-    public ResponseEntity<List<?>> getAllTodoList() {
+    public ResponseEntity<List<?>> getAllTodoList() throws Exception {
         return ResponseEntity.ok(todolistService.getAllTodoList());
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<?>> getAllTodoListByUser(@PathVariable Integer userId ) {
+    public ResponseEntity<List<?>> getAllTodoListByUser(@PathVariable Integer userId ) throws Exception {
         return ResponseEntity.ok(todolistService.getAllTodoList(userId));
     }
 
 
     @GetMapping("/user/{userId}/{stateId}")
     public ResponseEntity<List<?>> getAllTodoListByUserIdAndStateId(@PathVariable Integer userId,
-                                                                    @PathVariable Integer stateId ) {
+                                                                    @PathVariable Integer stateId ) throws Exception{
         return ResponseEntity.ok(todolistService.getAllTodoList(userId, stateId));
     }
 
@@ -52,7 +52,7 @@ public class TodoListController {
 
 
     @PutMapping("/create")
-    public ResponseEntity<?> createTodoList(@RequestBody TodoListRequest todolist) {
+    public ResponseEntity<?> createTodoList(@RequestBody TodoListRequest todolist) throws Exception {
         todolistService.create(todolist);
         ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Todo list created successfully");
         return ResponseEntityBuilder.build(apiSuccess);
@@ -83,7 +83,7 @@ public class TodoListController {
 
     }
 
-    @PostMapping("/{todoListId}/delete-assignee")
+    @PostMapping("/{todoListId}/remove-assignee")
     public ResponseEntity<?> delete(@PathVariable Integer todoListId, @RequestBody String email) throws Exception {
         assigneeService.deleteAssignee(todoListId,email);
         ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Assignee deleted successfully");

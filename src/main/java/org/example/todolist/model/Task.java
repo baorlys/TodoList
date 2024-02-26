@@ -52,7 +52,7 @@ public class Task {
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 
-    @Column(name = "is_hidden")
+    @Column(name = "is_hidden", columnDefinition = "boolean default false")
     private Boolean isHidden;
 
 }
