@@ -7,10 +7,7 @@ import org.example.todolist.model.Priority;
 import org.example.todolist.model.State;
 import org.example.todolist.model.TodoList;
 import org.example.todolist.model.User;
-import org.example.todolist.repository.PriorityRepository;
-import org.example.todolist.repository.StateRepository;
-import org.example.todolist.repository.TodolistRepository;
-import org.example.todolist.repository.UserRepository;
+import org.example.todolist.repository.*;
 import org.example.todolist.service.AssigneeService;
 import org.example.todolist.service.TaskService;
 import org.example.todolist.service.TodoListService;
@@ -39,6 +36,8 @@ public class TodoListServiceImpl implements TodoListService {
     private UserRepository userRepository;
     @Autowired
     private AssigneeService assigneeService;
+    @Autowired
+    private AssigneeRepository assigneeRepository;
 
     @Override
     public TodoListResponse create(TodoListRequest todoListRequest) throws Exception {
@@ -130,6 +129,11 @@ public class TodoListServiceImpl implements TodoListService {
     @Override
     public List<TodoListResponse> getAllTodoList(Integer userId) throws Exception{
         List<TodoList> todoLists = todolistRepository.findByUserId(userId);
+        return getTodoListResponses(todoLists);
+    }
+
+    public List<TodoListResponse> getAllTodoListAssignee(Integer userId) throws Exception{
+        List<TodoList> todoLists = assigneeRepository.findAllByUserId(userId);
         return getTodoListResponses(todoLists);
     }
 

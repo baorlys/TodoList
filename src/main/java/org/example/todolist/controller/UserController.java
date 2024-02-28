@@ -24,6 +24,11 @@ public class UserController {
          return ResponseEntity.ok(userService.findById(userId));
     }
 
+    @GetMapping("/email/{email}")
+    public ResponseEntity<?> getUserByEmail(@PathVariable String email) throws Exception {
+         return ResponseEntity.ok(userService.findByEmail(email));
+    }
+
     @PostMapping("/{userId}/update")
     public ResponseEntity<?> updateUserById(@PathVariable Integer userId, @RequestBody UserRequest userRequest) throws Exception {
         return ResponseEntity.ok(userService.update(userId, userRequest));

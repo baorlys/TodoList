@@ -106,6 +106,7 @@ public class AssigneeServiceImpl implements AssigneeService {
                     assigneeResponse.setUser(mapper.map(assignee.getId().getUser(), UserResponse.class));
                 }
                 assigneeResponse.setPermission(PermissionAccess.getById(assignee.getPermission().getId()));
+                assigneeResponseList.add(assigneeResponse);
             }
             return assigneeResponseList;
         } catch (Exception e) {

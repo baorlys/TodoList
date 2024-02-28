@@ -3,6 +3,8 @@ package org.example.todolist.controller;
 import org.example.todolist.dto.request.AssigneeRequest;
 import org.example.todolist.dto.request.CommentRequest;
 import org.example.todolist.dto.request.TodoListRequest;
+import org.example.todolist.dto.response.TodoListResponse;
+import org.example.todolist.model.TodoList;
 import org.example.todolist.service.AssigneeService;
 import org.example.todolist.service.CommentService;
 import org.example.todolist.service.TaskService;
@@ -15,7 +17,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.HandlerMapping;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/v1/todo-list")
@@ -34,8 +38,11 @@ public class TodoListController {
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<?>> getAllTodoListByUser(@PathVariable Integer userId ) throws Exception {
-        return ResponseEntity.ok(todolistService.getAllTodoList(userId));
+    public ResponseEntity<?> getAllTodoListByUser(@PathVariable Integer userId ) throws Exception {
+        List<TodoListResponse> ownTodoLists = todolistService.getAllTodoList(userId);
+        List<TodoListResponse> assignTodoLists = todolistService.getAllTodoListAssignee(userId);
+        ownTodoLists.addAll(assignTodoLists);
+        return ResponseEntity.ok(ownTodoLists);
     }
 
 
@@ -53,10 +60,7 @@ public class TodoListController {
 
     @PutMapping("/create")
     public ResponseEntity<?> createTodoList(@RequestBody TodoListRequest todolist) throws Exception {
-        todolistService.create(todolist);
-        ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Todo list created successfully");
-        return ResponseEntityBuilder.build(apiSuccess);
-
+        return ResponseEntity.ok(todolistService.create(todolist));
     }
 
     @PostMapping("/delete/{todoListId}")
@@ -72,6 +76,11 @@ public class TodoListController {
         todolistService.update(todoListId, todoList);
         ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Todo list updated successfully");
         return ResponseEntityBuilder.build(apiSuccess);
+    }
+
+    @GetMapping("/{todoListId}/assignees")
+    public ResponseEntity<List<?>> getAssignees(@PathVariable Integer todoListId) throws Exception {
+        return ResponseEntity.ok(assigneeService.getAssigneeList(todoListId));
     }
 
     @PutMapping("/{todoListId}/add-assignee")
@@ -98,25 +107,20 @@ public class TodoListController {
     @PutMapping("/{todoListId}/add-comment")
     public ResponseEntity<?> addComment(@PathVariable Integer todoListId, @RequestBody CommentRequest commentRequest) throws Exception {
         commentRequest.setTodoListId(todoListId);
-        commentService.addComment(commentRequest);
-        ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Comment added successfully");
-        return ResponseEntityBuilder.build(apiSuccess);
+        return ResponseEntity.ok(commentService.addComment(commentRequest));
 
     }
 
     @PostMapping("/{todoListId}/delete-comment/{commentId}")
     public ResponseEntity<?> deleteComment(@PathVariable Integer todoListId, @PathVariable Integer commentId) throws Exception {
-        commentService.hide(commentId);
-        ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Comment deleted successfully");
-        return ResponseEntityBuilder.build(apiSuccess);
+        return ResponseEntity.ok(commentService.hide(commentId));
+
     }
 
     @PostMapping("/{todoListId}/update-comment/{commentId}")
     public ResponseEntity<?> updateComment(@PathVariable Integer todoListId, @PathVariable Integer commentId, @RequestBody CommentRequest commentRequest) throws Exception {
         commentRequest.setTodoListId(todoListId);
-        commentService.updateComment(commentId, commentRequest);
-        ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Comment updated successfully");
-        return ResponseEntityBuilder.build(apiSuccess);
+        return ResponseEntity.ok(commentService.updateComment(commentId, commentRequest));
 
     }
 

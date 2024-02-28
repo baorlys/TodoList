@@ -7,13 +7,13 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface CommentService {
-    void addComment(CommentRequest commentRequest) throws Exception;
+    CommentResponse addComment(CommentRequest commentRequest) throws Exception;
 
     void deleteComment(Integer commentId) throws Exception;
 
-    Boolean hide(Integer commentId) throws Exception;
+    Integer hide(Integer commentId) throws Exception;
 
-    void updateComment(Integer commentId, CommentRequest commentRequest) throws Exception;
+    CommentResponse updateComment(Integer commentId, CommentRequest commentRequest) throws Exception;
 
     List<CommentResponse> getComments(Integer todoListId) throws Exception;
 }

@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -35,16 +36,18 @@ public class CommentServiceImpl implements CommentService {
     private TodolistRepository todolistRepository;
 
     @Override
-    public void addComment(CommentRequest commentRequest) throws Exception {
+    public CommentResponse addComment(CommentRequest commentRequest) throws Exception {
         Comment comment = new Comment();
         User user = userRepository.findById(commentRequest.getUserId()).orElse(null);
         comment.setUser(user);
+        comment.setIsHidden(false);
         TodoList todoList = todolistRepository.findById(commentRequest.getTodoListId()).orElse(null);
         comment.setTodoList(todoList);
         comment.setContent(commentRequest.getContent());
         comment.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         try {
             commentRepository.save(comment);
+            return mapper.map(comment, CommentResponse.class);
         } catch (Exception e) {
             throw new Exception("Cannot add comment");
         }
@@ -60,7 +63,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Boolean hide(Integer commentId) throws Exception {
+    public Integer hide(Integer commentId) throws Exception {
         Comment comment = commentRepository.findById(commentId).orElse(null);
         if(comment == null) {
             throw new Exception("Comment not found");
@@ -69,14 +72,14 @@ public class CommentServiceImpl implements CommentService {
         comment.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
         try {
             commentRepository.save(comment);
-            return true;
+            return comment.getId();
         } catch (Exception e) {
             throw new Exception("Error");
         }
     }
 
     @Override
-    public void updateComment(Integer commentId, CommentRequest commentRequest) throws Exception {
+    public CommentResponse updateComment(Integer commentId, CommentRequest commentRequest) throws Exception {
         Comment comment = commentRepository.findById(commentId).orElse(null);
         if(commentRequest.getContent().isEmpty()) {
             throw new Exception("Content cannot be empty");
@@ -85,6 +88,7 @@ public class CommentServiceImpl implements CommentService {
         comment.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
         try {
             commentRepository.save(comment);
+            return mapper.map(comment, CommentResponse.class);
         } catch (Exception e) {
             throw new Exception("Cannot update comment");
         }
@@ -99,13 +103,15 @@ public class CommentServiceImpl implements CommentService {
             throw new Exception("Cannot get comments");
         }
         if(comments.isEmpty()) {
-            throw new Exception("No comments");
+            return Collections.emptyList();
         }
         List<CommentResponse> commentResponses = new ArrayList<>();
         for(Comment comment : comments) {
             CommentResponse commentResponse = new CommentResponse();
+            commentResponse.setId(comment.getId());
             commentResponse.setContent(comment.getContent());
             commentResponse.setUser(mapper.map(comment.getUser(), UserResponse.class));
+            commentResponse.setCreatedAt(comment.getCreatedAt());
             commentResponses.add(commentResponse);
         }
         return commentResponses;

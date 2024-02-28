@@ -54,6 +54,7 @@ public class AuthServiceImpl implements AuthService {
         user.setRole(role);
         user.setPassword(new BCryptPasswordEncoder().encode(signupRequest.getPassword()));
         user.setUsername(signupRequest.getUsername());
+        user.setMobileHidden(true);
         user.setLastloginAt(new Timestamp(System.currentTimeMillis()));
         user.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         User createdUser = userRepository.save(user);

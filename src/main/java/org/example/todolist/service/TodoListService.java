@@ -18,5 +18,7 @@ public interface TodoListService {
 
     TodoListResponse update(Integer id, TodoListRequest todoListRequest) throws Exception;
 
+    public List<TodoListResponse> getAllTodoListAssignee(Integer userId) throws Exception;
+
     TodoListResponse getTodoList(Integer id) throws Exception;
 }
