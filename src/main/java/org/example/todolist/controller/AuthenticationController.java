@@ -49,7 +49,7 @@ public class AuthenticationController {
     public ResponseEntity<?> signUp(@Valid @RequestBody SignupRequest signupRequest)
             throws Exception {
        SignupResponse createdUser = authService.createUser(signupRequest);
-       return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+       return ResponseEntity.ok(createdUser);
 
     }
 

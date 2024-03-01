@@ -39,9 +39,7 @@ public class TaskController {
     }
     @PutMapping("{todoListId}/create-task")
     public ResponseEntity<?> createTask(@PathVariable Integer todoListId) throws Exception {
-        taskService.createWith(todoListId);
-        ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Task created successfully");
-        return ResponseEntityBuilder.build(apiSuccess);
+        return ResponseEntity.ok(taskService.createWith(todoListId));
     }
 
     @PostMapping("/update/{taskId}")
