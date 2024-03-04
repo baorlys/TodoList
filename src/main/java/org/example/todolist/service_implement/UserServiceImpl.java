@@ -1,11 +1,9 @@
-package org.example.todolist.serviceImpl;
+package org.example.todolist.service_implement;
 
 import org.example.todolist.dto.request.ChangePasswordRequest;
 import org.example.todolist.dto.request.UserRequest;
 import org.example.todolist.dto.response.UserResponse;
-import org.example.todolist.model.Role;
 import org.example.todolist.model.User;
-import org.example.todolist.repository.RoleRepository;
 import org.example.todolist.repository.UserRepository;
 import org.example.todolist.service.UserService;
 import org.modelmapper.ModelMapper;
@@ -16,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 @Service
 public class UserServiceImpl implements UserService {

@@ -1,7 +1,6 @@
-package org.example.todolist.serviceImpl;
+package org.example.todolist.service_implement;
 
 import org.example.todolist.dto.request.AuthenticationRequest;
-import org.example.todolist.dto.request.ChangePasswordRequest;
 import org.example.todolist.dto.request.SignupRequest;
 import org.example.todolist.dto.response.SignupResponse;
 import org.example.todolist.model.Role;
@@ -10,14 +9,10 @@ import org.example.todolist.repository.RoleRepository;
 import org.example.todolist.repository.UserRepository;
 import org.example.todolist.service.AuthService;
 import org.example.todolist.service.StateService;
-import org.example.todolist.service.TaskService;
 import org.example.todolist.service.UserService;
 import org.example.todolist.util.JwtUtil;
-import org.example.todolist.web.ApiError;
-import org.example.todolist.web.ResponseEntityBuilder;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

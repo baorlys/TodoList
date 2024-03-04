@@ -3,8 +3,8 @@ package org.example.todolist.controller;
 import org.example.todolist.dto.request.AssigneeRequest;
 import org.example.todolist.dto.request.CommentRequest;
 import org.example.todolist.dto.request.TodoListRequest;
+import org.example.todolist.dto.response.AssigneeResponse;
 import org.example.todolist.dto.response.TodoListResponse;
-import org.example.todolist.model.TodoList;
 import org.example.todolist.service.AssigneeService;
 import org.example.todolist.service.CommentService;
 import org.example.todolist.service.TaskService;
@@ -15,11 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.HandlerMapping;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("api/v1/todo-list")
@@ -33,12 +29,12 @@ public class TodoListController {
     @Autowired
     private CommentService commentService;
     @GetMapping("/")
-    public ResponseEntity<List<?>> getAllTodoList() throws Exception {
+    public ResponseEntity<List<TodoListResponse>> getAllTodoList() throws Exception {
         return ResponseEntity.ok(todolistService.getAllTodoList());
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<?> getAllTodoListByUser(@PathVariable Integer userId ) throws Exception {
+    public ResponseEntity<List<TodoListResponse>> getAllTodoListByUser(@PathVariable Integer userId ) throws Exception {
         List<TodoListResponse> ownTodoLists = todolistService.getAllTodoList(userId);
         List<TodoListResponse> assignTodoLists = todolistService.getAllTodoListAssignee(userId);
         ownTodoLists.addAll(assignTodoLists);
@@ -47,19 +43,19 @@ public class TodoListController {
 
 
     @GetMapping("/user/{userId}/{stateId}")
-    public ResponseEntity<List<?>> getAllTodoListByUserIdAndStateId(@PathVariable Integer userId,
+    public ResponseEntity<List<TodoListResponse>> getAllTodoListByUserIdAndStateId(@PathVariable Integer userId,
                                                                     @PathVariable Integer stateId ) throws Exception{
         return ResponseEntity.ok(todolistService.getAllTodoList(userId, stateId));
     }
 
     @GetMapping("/{todoListId}")
-    public ResponseEntity<?> getTodoList(@PathVariable Integer todoListId) {
+    public ResponseEntity<TodoListResponse> getTodoList(@PathVariable Integer todoListId) {
         return ResponseEntity.ok(todolistService.getTodoListResponse(todoListId));
     }
 
 
     @PutMapping("/create")
-    public ResponseEntity<?> createTodoList(@RequestBody TodoListRequest todolist) throws Exception {
+    public ResponseEntity<TodoListResponse> createTodoList(@RequestBody TodoListRequest todolist) throws Exception {
         return ResponseEntity.ok(todolistService.create(todolist));
     }
 
@@ -79,7 +75,7 @@ public class TodoListController {
     }
 
     @GetMapping("/{todoListId}/assignees")
-    public ResponseEntity<List<?>> getAssignees(@PathVariable Integer todoListId) throws Exception {
+    public ResponseEntity<List<AssigneeResponse>> getAssignees(@PathVariable Integer todoListId) throws Exception {
         return ResponseEntity.ok(assigneeService.getAssigneeList(todoListId));
     }
 

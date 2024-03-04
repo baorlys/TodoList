@@ -1,4 +1,4 @@
-package org.example.todolist.serviceImpl.jwt;
+package org.example.todolist.service_implement.jwt;
 
 import org.example.todolist.model.User;
 import org.example.todolist.repository.UserRepository;
@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 

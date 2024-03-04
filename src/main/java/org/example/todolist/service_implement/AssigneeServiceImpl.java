@@ -1,11 +1,11 @@
-package org.example.todolist.serviceImpl;
+package org.example.todolist.service_implement;
 
 import org.example.todolist.dto.request.AssigneeRequest;
 import org.example.todolist.dto.response.AssigneeResponse;
 import org.example.todolist.dto.response.UserResponse;
 import org.example.todolist.enums.PermissionAccess;
 import org.example.todolist.model.*;
-import org.example.todolist.model.compositeKey.AssigneeId;
+import org.example.todolist.model.composite_key.AssigneeId;
 import org.example.todolist.repository.*;
 import org.example.todolist.service.AssigneeService;
 import org.modelmapper.ModelMapper;
@@ -14,8 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 @Service

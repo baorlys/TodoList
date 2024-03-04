@@ -2,7 +2,6 @@ package org.example.todolist.service;
 
 import org.example.todolist.dto.request.CommentRequest;
 import org.example.todolist.dto.response.CommentResponse;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 

@@ -19,6 +19,7 @@ public class WebSecurityConfig {
 
     @Autowired
     private JwtRequestFilter requestFilter;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.csrf(AbstractHttpConfigurer::disable)

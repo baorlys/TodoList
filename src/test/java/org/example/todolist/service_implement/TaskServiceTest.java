@@ -1,4 +1,4 @@
-package org.example.todolist.serviceImpl;
+package org.example.todolist.service_implement;
 
 import org.example.todolist.repository.TaskRepository;
 import org.junit.jupiter.api.Test;

@@ -1,10 +1,9 @@
-package org.example.todolist.serviceImpl;
+package org.example.todolist.service_implement;
 
 import org.example.todolist.dto.request.CommentRequest;
 import org.example.todolist.dto.response.CommentResponse;
 import org.example.todolist.dto.response.UserResponse;
 import org.example.todolist.model.Comment;
-import org.example.todolist.model.Task;
 import org.example.todolist.model.TodoList;
 import org.example.todolist.model.User;
 import org.example.todolist.repository.CommentRepository;
@@ -14,7 +13,6 @@ import org.example.todolist.repository.UserRepository;
 import org.example.todolist.service.CommentService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;

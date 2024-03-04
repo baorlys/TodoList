@@ -1,7 +1,6 @@
 package org.example.todolist.dto.request;
 
 import jakarta.validation.constraints.*;
-import lombok.Builder;
 import lombok.Data;
 
 @Data

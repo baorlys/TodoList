@@ -1,8 +1,6 @@
-package org.example.todolist.serviceImpl;
+package org.example.todolist.service_implement;
 
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class TodoListServiceImplTest {
 

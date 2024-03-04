@@ -78,18 +78,18 @@ public class LoggingAspect {
         }
     }
 
-//    @Around("@annotation(LogExecutionTime)")
-//    public Object logExecutionTime(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-//        MethodSignature methodSignature = (MethodSignature) proceedingJoinPoint.getSignature();
-//        String className = methodSignature.getDeclaringType().getSimpleName();
-//        String methodName = methodSignature.getMethod().getName();
-//        Instant startTime = Instant.now();
-//        Object result = proceedingJoinPoint.proceed();
-//        String additionalMessage = methodSignature.getMethod().getAnnotation(LogExecutionTime.class).additionalMessage();
-//        long elapsedTime = Duration.between(startTime, Instant.now()).toMillis();
-//        log.info("Class Name: {}, Method Name: {}, Additional Message: {}, Elapsed Time: {}ms",
-//                className, methodName, additionalMessage, elapsedTime);
-//        log.info("Result: {}", result);
-//        return result;
-//    }
+    @Around("@annotation(LogExecutionTime)")
+    public Object logExecutionTime(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+        MethodSignature methodSignature = (MethodSignature) proceedingJoinPoint.getSignature();
+        String className = methodSignature.getDeclaringType().getSimpleName();
+        String methodName = methodSignature.getMethod().getName();
+        Instant startTime = Instant.now();
+        Object result = proceedingJoinPoint.proceed();
+        String additionalMessage = methodSignature.getMethod().getAnnotation(LogExecutionTime.class).additionalMessage();
+        long elapsedTime = Duration.between(startTime, Instant.now()).toMillis();
+        log.info("Class Name: {}, Method Name: {}, Additional Message: {}, Elapsed Time: {}ms",
+                className, methodName, additionalMessage, elapsedTime);
+        log.info("Result: {}", result);
+        return result;
+    }
 }

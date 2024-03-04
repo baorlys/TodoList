@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.todolist.model.compositeKey.AssigneeId;
+import org.example.todolist.model.composite_key.AssigneeId;
 
 import java.sql.Timestamp;
 

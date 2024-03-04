@@ -1,13 +1,13 @@
-package org.example.todolist.model.compositeKey;
+package org.example.todolist.model.composite_key;
 
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.*;
-import org.example.todolist.model.Task;
 import org.example.todolist.model.TodoList;
 import org.example.todolist.model.User;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 

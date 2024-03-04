@@ -2,7 +2,6 @@ package org.example.todolist.service;
 
 import org.example.todolist.dto.request.TodoListRequest;
 import org.example.todolist.dto.response.TodoListResponse;
-import org.example.todolist.model.TodoList;
 
 import java.util.List;
 

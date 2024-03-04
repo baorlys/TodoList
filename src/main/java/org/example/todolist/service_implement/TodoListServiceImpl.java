@@ -1,6 +1,5 @@
-package org.example.todolist.serviceImpl;
+package org.example.todolist.service_implement;
 
-import org.example.todolist.dto.request.AssigneeRequest;
 import org.example.todolist.dto.request.TodoListRequest;
 import org.example.todolist.dto.response.TodoListResponse;
 import org.example.todolist.model.Priority;

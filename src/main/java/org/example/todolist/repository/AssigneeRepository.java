@@ -1,11 +1,9 @@
 package org.example.todolist.repository;
 
-import org.example.todolist.dto.request.AssigneeRequest;
 import org.example.todolist.model.Assignee;
 import org.example.todolist.model.TodoList;
-import org.example.todolist.model.compositeKey.AssigneeId;
+import org.example.todolist.model.composite_key.AssigneeId;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 

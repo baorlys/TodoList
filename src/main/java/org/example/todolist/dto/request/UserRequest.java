@@ -12,7 +12,7 @@ import lombok.Data;
 public class UserRequest {
     @NotBlank(message = "Invalid Name: Empty name")
     @NotNull(message = "Invalid Name: Name is NULL")
-    @Pattern(regexp = "^[a-zA-Z0-9_]{2,30}$", message = "Invalid Name: Must be of 2 - 30 characters")
+    @Pattern(regexp = "^\\w{2,30}$", message = "Invalid Name: Must be of 2 - 30 characters")
     private String username;
     @NotBlank(message = "Invalid Email: Empty email")
     @NotNull(message = "Invalid Email: Email is NULL")
@@ -20,7 +20,7 @@ public class UserRequest {
     private String email;
     @NotBlank(message = "Invalid mobile: Empty mobile")
     @NotNull(message = "Invalid mobile: mobile is NULL")
-    @Pattern(regexp = "^[0-9]{10}$", message = "Invalid mobile: Must be of 10 digits")
+    @Pattern(regexp = "^\\d{10}$", message = "Invalid mobile: Must be of 10 digits")
     private String mobile;
     private Boolean mobileHidden;
 }

@@ -3,10 +3,8 @@ package org.example.todolist.service;
 import org.example.todolist.dto.request.ChangePasswordRequest;
 import org.example.todolist.dto.request.UserRequest;
 import org.example.todolist.dto.response.UserResponse;
-import org.example.todolist.model.User;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface UserService {
     List<UserResponse> findAll();
