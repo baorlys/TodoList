@@ -3,6 +3,7 @@ package org.example.todolist.service_implement;
 import org.example.todolist.dto.request.AuthenticationRequest;
 import org.example.todolist.dto.request.SignupRequest;
 import org.example.todolist.dto.response.SignupResponse;
+import org.example.todolist.enums.RegistrationSource;
 import org.example.todolist.model.Role;
 import org.example.todolist.model.User;
 import org.example.todolist.repository.RoleRepository;
@@ -43,11 +44,24 @@ public class AuthServiceImpl implements AuthService {
         if(userRepository.findByEmail(signupRequest.getEmail()) != null) {
             throw new Exception("Email already exists");
         }
-        Role role = roleRepository.findById(2).orElse(null);
         User user = new User();
+        user.setPassword(new BCryptPasswordEncoder().encode(signupRequest.getPassword()));
+        return getSignupResponse(signupRequest, user);
+    }
+
+    @Override
+    public SignupResponse createUserWithOAuth2(String email, String username) throws Exception {
+        if(userRepository.findByEmail(email) != null) {
+            return mapper.map(userRepository.findByEmail(email), SignupResponse.class);
+        }
+        User user = new User();
+        return getSignupResponse(new SignupRequest(email,"",username), user);
+    }
+
+    private SignupResponse getSignupResponse(SignupRequest signupRequest, User user) throws Exception {
+        Role role = roleRepository.findById(2).orElse(null);
         user.setEmail(signupRequest.getEmail());
         user.setRole(role);
-        user.setPassword(new BCryptPasswordEncoder().encode(signupRequest.getPassword()));
         user.setUsername(signupRequest.getUsername());
         user.setMobileHidden(true);
         user.setIsHidden(false);
@@ -57,7 +71,6 @@ public class AuthServiceImpl implements AuthService {
         stateService.createDefautStates(createdUser.getId());
         return mapper.map(createdUser, SignupResponse.class);
     }
-
 
 
     @Override

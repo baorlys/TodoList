@@ -10,6 +10,7 @@ import org.example.todolist.service.AuthService;
 import org.example.todolist.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -35,8 +36,16 @@ public class AuthenticationController {
             throws Exception {
        SignupResponse createdUser = authService.createUser(signupRequest);
        return ResponseEntity.ok(createdUser);
-
     }
+
+    @GetMapping("/oauth2")
+    @ResponseBody
+    public Authentication oauth2(Authentication auth) {
+
+        return auth;
+    }
+
+
 
 
 

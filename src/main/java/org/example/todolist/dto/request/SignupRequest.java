@@ -1,9 +1,11 @@
 package org.example.todolist.dto.request;
 
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class SignupRequest {
     @NotBlank(message = "Invalid Email: Empty email")
     @NotNull(message = "Invalid Email: Email is NULL")

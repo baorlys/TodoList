@@ -2,6 +2,7 @@ package org.example.todolist.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.example.todolist.enums.RegistrationSource;
 
 import java.sql.Timestamp;
 
@@ -49,5 +50,6 @@ public class User {
 
     @Column(name = "is_hidden")
     private Boolean isHidden;
+
 
 }

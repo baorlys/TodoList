@@ -1,11 +1,9 @@
 package org.example.todolist.service_implement;
 
 import org.example.todolist.dto.request.TodoListRequest;
+import org.example.todolist.dto.response.ProjectResponse;
 import org.example.todolist.dto.response.TodoListResponse;
-import org.example.todolist.model.Priority;
-import org.example.todolist.model.State;
-import org.example.todolist.model.TodoList;
-import org.example.todolist.model.User;
+import org.example.todolist.model.*;
 import org.example.todolist.repository.*;
 import org.example.todolist.service.AssigneeService;
 import org.example.todolist.service.TaskService;
@@ -37,11 +35,15 @@ public class TodoListServiceImpl implements TodoListService {
     private AssigneeService assigneeService;
     @Autowired
     private AssigneeRepository assigneeRepository;
+    @Autowired
+    private ProjectRepository projectRepository;
 
     @Override
     public TodoListResponse create(TodoListRequest todoListRequest) throws Exception {
         TodoList todolist = new TodoList();
+
         todolist.setPriority(priorityRepository.findById(4).orElse(null));
+        todolist.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         User user = userRepository.findById(todoListRequest.getUserId()).orElse(null);
         todolist.setUser(user);
         return getTodoListResponse(todoListRequest, todolist);
@@ -50,6 +52,8 @@ public class TodoListServiceImpl implements TodoListService {
     private TodoListResponse getTodoListResponse(TodoListRequest todoListRequest, TodoList todolist) throws Exception {
         Priority priority = priorityRepository.findById(todoListRequest.getPriorityId()).orElse(null);
         State state = stateRepository.findByUserIdAndType(todoListRequest.getUserId(), todoListRequest.getTypeId());
+        Project project = projectRepository.findById(todoListRequest.getProjectId()).orElse(null);
+        todolist.setProject(project);
         todolist.setTitle(todoListRequest.getTitle());
         todolist.setDescription(todoListRequest.getDescription());
         todolist.setOrder(todoListRequest.getOrder());
@@ -140,6 +144,13 @@ public class TodoListServiceImpl implements TodoListService {
         List<TodoListResponse> todolistResponses = new ArrayList<>();
         for(TodoList todolist : todoLists) {
             TodoListResponse todolistResponse = mapper.map(todolist, TodoListResponse.class);
+            ProjectResponse projectResponse = new ProjectResponse();
+            if(todolist.getProject() == null) {
+                projectResponse = null;
+            } else {
+                projectResponse = mapper.map(todolist.getProject(), ProjectResponse.class);
+            }
+            todolistResponse.setProject(projectResponse);
             todolistResponse.setTasks(taskService.getAllByTodolist(todolist));
             try {
                 todolistResponse.setAssignees(assigneeService.getAssigneeList(todolist.getId()));

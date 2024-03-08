@@ -52,4 +52,8 @@ public class TodoList {
     @Column(name = "is_hidden")
     private Boolean isHidden;
 
+    @ManyToOne()
+    @JoinColumn(name = "project_id")
+    private Project project;
+
 }

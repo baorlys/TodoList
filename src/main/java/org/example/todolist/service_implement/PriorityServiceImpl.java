@@ -17,7 +17,8 @@ public class PriorityServiceImpl implements PriorityService {
         priorityRepository.saveAll(List.of(
                 new Priority(1, "Low"),
                 new Priority(2, "Medium"),
-                new Priority(3, "High")
+                new Priority(3, "High"),
+                new Priority(4, "None")
         ));
     }
 }

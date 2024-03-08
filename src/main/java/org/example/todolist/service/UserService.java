@@ -17,4 +17,5 @@ public interface UserService {
     UserResponse update(Integer id, UserRequest userRequest);
     Boolean delete(Integer id) throws Exception;
     Boolean hide(Integer id) throws Exception;
+
 }

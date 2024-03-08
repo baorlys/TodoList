@@ -17,5 +17,6 @@ public class TodoListResponse {
     private Timestamp estimation;
     private List<TaskResponse> tasks;
     private List<AssigneeResponse> assignees;
+    private ProjectResponse project;
 
 }
