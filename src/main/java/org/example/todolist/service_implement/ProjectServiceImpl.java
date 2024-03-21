@@ -66,6 +66,11 @@ public class ProjectServiceImpl implements ProjectService {
         if(project == null) {
             throw new Exception("Project not found");
         }
+        List<TodoList> todoLists = todolistRepository.findByProjectId(projectId);
+        for(TodoList todoList : todoLists) {
+            todoList.setIsHidden(true);
+            todolistRepository.save(todoList);
+        }
         project.setIsHidden(true);
         projectRepository.save(project);
         return projectId;

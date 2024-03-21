@@ -5,10 +5,8 @@ import org.example.todolist.dto.request.CommentRequest;
 import org.example.todolist.dto.request.TodoListRequest;
 import org.example.todolist.dto.response.AssigneeResponse;
 import org.example.todolist.dto.response.TodoListResponse;
-import org.example.todolist.service.AssigneeService;
-import org.example.todolist.service.CommentService;
-import org.example.todolist.service.TaskService;
-import org.example.todolist.service.TodoListService;
+import org.example.todolist.model.EmailDetails;
+import org.example.todolist.service.*;
 import org.example.todolist.web.ApiSuccess;
 import org.example.todolist.web.ResponseEntityBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +21,7 @@ public class TodoListController {
     @Autowired
     private TodoListService todolistService;
     @Autowired
-    private TaskService taskService;
+    private EmailService emailService;
     @Autowired
     private AssigneeService assigneeService;
     @Autowired
@@ -85,7 +83,6 @@ public class TodoListController {
         assigneeService.addAssignee(assigneeRequest);
         ApiSuccess apiSuccess = new ApiSuccess(HttpStatus.OK, "Assignee added successfully");
         return ResponseEntityBuilder.build(apiSuccess);
-
     }
 
     @PostMapping("/{todoListId}/remove-assignee")

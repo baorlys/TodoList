@@ -52,8 +52,11 @@ public class TodoListServiceImpl implements TodoListService {
     private TodoListResponse getTodoListResponse(TodoListRequest todoListRequest, TodoList todolist) throws Exception {
         Priority priority = priorityRepository.findById(todoListRequest.getPriorityId()).orElse(null);
         State state = stateRepository.findByUserIdAndType(todoListRequest.getUserId(), todoListRequest.getTypeId());
-        Project project = projectRepository.findById(todoListRequest.getProjectId()).orElse(null);
-        todolist.setProject(project);
+        todolist.setProject(null);
+        if(todoListRequest.getProjectId() != null) {
+            Project project = projectRepository.findById(todoListRequest.getProjectId()).orElse(null);
+            todolist.setProject(project);
+        }
         todolist.setTitle(todoListRequest.getTitle());
         todolist.setDescription(todoListRequest.getDescription());
         todolist.setOrder(todoListRequest.getOrder());

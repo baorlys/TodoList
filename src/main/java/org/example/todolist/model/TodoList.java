@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -43,6 +44,13 @@ public class TodoList {
     @JoinColumn(name = "state_id")
     private State state;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "todolist_labels",
+            joinColumns = @JoinColumn(name = "todolist_id"),
+            inverseJoinColumns = @JoinColumn(name = "label_id"))
+    private List<Label> labels;
+
     @Column(name = "created_at")
     private Timestamp createdAt;
 
@@ -55,5 +63,18 @@ public class TodoList {
     @ManyToOne()
     @JoinColumn(name = "project_id")
     private Project project;
+
+    public void addLabel(Label label) {
+        this.labels.add(label);
+        label.getTodoLists().add(this);
+    }
+
+    public void removeLabel(Integer labelId) {
+        Label label = this.labels.stream().filter(t -> t.getId().equals(labelId)).findFirst().orElse(null);
+        if (label != null) {
+            this.labels.remove(label);
+            label.getTodoLists().remove(this);
+        }
+    }
 
 }

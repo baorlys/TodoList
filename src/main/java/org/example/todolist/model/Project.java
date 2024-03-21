@@ -1,6 +1,7 @@
 package org.example.todolist.model;
 
 import jakarta.persistence.*;
+import jdk.jfr.Label;
 import lombok.*;
 
 import java.sql.Timestamp;
@@ -35,6 +36,8 @@ public class Project {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private User user;
+
+
 
     @Column(name = "created_at")
     private Timestamp createdAt;
