@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface LabelRepository extends JpaRepository<Label, Integer> {
     List<Label> findLabelsByTodoListsId(Integer todoListId);
+
+    List<Label> findLabelsByUserId(Integer userId);
 }

@@ -12,6 +12,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -31,18 +33,13 @@ public class LabelServiceImpl implements LabelService {
         newLabel.setTitle(label.getTitle());
         newLabel.setColor(label.getColor());
         newLabel.setUser(userRepository.findById(label.getUserId()).orElse(null));
-        TodoList todoList = todolistRepository.findById(label.getTodoId()).orElse(null);
-        if(todoList != null){
-            todoList.addLabel(newLabel);
-            todolistRepository.save(todoList);
-        }
         return mapper.map(labelRepository.save(newLabel), LabelResponse.class);
 
     }
 
     @Override
-    public LabelResponse addLabelToTodo(Integer labelId) {
-        TodoList todoList = todolistRepository.findById(labelId).orElse(null);
+    public LabelResponse addLabelToTodo(Integer todoId,Integer labelId) {
+        TodoList todoList = todolistRepository.findById(todoId).orElse(null);
         Label label = labelRepository.findById(labelId).orElse(null);
         if(todoList != null && label != null){
             todoList.addLabel(label);
@@ -58,12 +55,31 @@ public class LabelServiceImpl implements LabelService {
 
     @Override
     public List<LabelResponse> getAllLabelsByUserId(Integer userId) {
-        return null;
+        List<Label> labels = labelRepository.findLabelsByUserId(userId);
+        if(labels.isEmpty()){
+            return Collections.emptyList();
+        }
+        List<LabelResponse> response = new ArrayList<>();
+        for(Label label : labels){
+            LabelResponse labelResponse = mapper.map(label, LabelResponse.class);
+            response.add(labelResponse);
+        }
+        return response;
     }
 
     @Override
     public List<LabelResponse> getAllLabelsByTodoId(Integer todoId) {
-        return null;
+        List<Label> labels = labelRepository.findLabelsByTodoListsId(todoId);
+        List<LabelResponse> response = new ArrayList<>();
+        if(labels.isEmpty()){
+            return Collections.emptyList();
+        }
+        for(Label label : labels){
+            LabelResponse labelResponse = mapper.map(label, LabelResponse.class);
+            response.add(labelResponse);
+        }
+        return response;
+
     }
 
     @Override

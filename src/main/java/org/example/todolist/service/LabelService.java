@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface LabelService {
     LabelResponse createLabel(LabelRequest label);
-    LabelResponse addLabelToTodo(Integer labelId);
+    LabelResponse addLabelToTodo(Integer todoId, Integer labelId);
 
 
     LabelResponse getLabelById(Integer id);

@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.sql.Timestamp;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,7 +30,7 @@ public class Label {
     @ManyToOne()
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
-    @ManyToMany(mappedBy = "labels")
+    @ManyToMany(mappedBy = "labels", fetch = FetchType.EAGER)
     private List<TodoList> todoLists;
 
     @Column(name = "is_hidden", columnDefinition = "boolean default false")
@@ -42,6 +43,11 @@ public class Label {
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 
+
+    List<TodoList> getTodoLists() {
+        if(todoLists == null) return Collections.emptyList();
+        return todoLists;
+    }
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;

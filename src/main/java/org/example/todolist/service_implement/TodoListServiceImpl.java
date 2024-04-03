@@ -6,6 +6,7 @@ import org.example.todolist.dto.response.TodoListResponse;
 import org.example.todolist.model.*;
 import org.example.todolist.repository.*;
 import org.example.todolist.service.AssigneeService;
+import org.example.todolist.service.LabelService;
 import org.example.todolist.service.TaskService;
 import org.example.todolist.service.TodoListService;
 import org.modelmapper.ModelMapper;
@@ -37,6 +38,8 @@ public class TodoListServiceImpl implements TodoListService {
     private AssigneeRepository assigneeRepository;
     @Autowired
     private ProjectRepository projectRepository;
+    @Autowired
+    private LabelService labelService;
 
     @Override
     public TodoListResponse create(TodoListRequest todoListRequest) throws Exception {
@@ -73,6 +76,7 @@ public class TodoListServiceImpl implements TodoListService {
         } catch (Exception e) {
             todolistResponse.setAssignees(Collections.emptyList());
         }
+        todolistResponse.setLabels(labelService.getAllLabelsByTodoId(todolist.getId()));
         todolistResponse.setUserId(todolist.getUser().getId());
         return todolistResponse;
     }

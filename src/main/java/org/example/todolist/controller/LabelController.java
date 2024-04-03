@@ -32,16 +32,16 @@ public class LabelController {
 
     @PatchMapping("todo/{todoId}/add")
     public ResponseEntity<LabelResponse> addLabelToTodo(@PathVariable Integer todoId, @RequestBody Integer labelId) {
-        return ResponseEntity.ok(labelService.addLabelToTodo(labelId));
+        return ResponseEntity.ok(labelService.addLabelToTodo(todoId, labelId));
     }
 
-    @PatchMapping("todo/{todoId}/tags/{id}/remove")
-    public ResponseEntity<Boolean> removeLabelFromTodo(@PathVariable Integer todoId, @PathVariable Integer id) {
-        return ResponseEntity.ok(labelService.removeLabelFromTodoById(todoId, id));
+    @PatchMapping("todo/{todoId}/remove")
+    public ResponseEntity<Boolean> removeLabelFromTodo(@PathVariable Integer todoId, @RequestBody Integer labelId) {
+        return ResponseEntity.ok(labelService.removeLabelFromTodoById(todoId, labelId));
     }
 
-    @DeleteMapping("/{id}/delete")
-    public ResponseEntity<?> deleteLabel(@PathVariable Integer id) {
-        return ResponseEntity.ok(labelService.deleteLabel(id));
+    @DeleteMapping("delete/{labelId}")
+    public ResponseEntity<?> deleteLabel(@PathVariable Integer labelId) {
+        return ResponseEntity.ok(labelService.deleteLabel(labelId));
     }
 }
